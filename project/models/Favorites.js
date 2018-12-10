@@ -12,7 +12,7 @@ const FavoritesSchema = new mongoose.Schema({
     //dataURL: {type: String,  default: ""},
     bookmarked: {type: Boolean, default: false},
     dateCreated: {type: Date, default:Date.now, required: true},
-    popularity: {type:Integer,default:0},
+    popularity: {type:Number,default:0},
 
     links: {type:Object, default: {}}
   }
