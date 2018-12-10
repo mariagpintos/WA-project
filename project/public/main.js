@@ -9,10 +9,7 @@ function init() {
 
     getFavorites();
 
-    console.log('third');
-
-
-    var searchFormName = document.querySelector(".searchFormName");
+  var searchFormName = document.querySelector(".searchFormName");
 	searchFormName.addEventListener("keyup", search);
 
 	socket.on('favorite.create.server', function(data){
