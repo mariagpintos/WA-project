@@ -1,0 +1,14 @@
+
+{#result}
+<div class="gallery">
+  <img src="{dataURL}">
+
+  <form action="/favorites/{_id}?_method=PUT" method='POST'>
+      <input class="name_favorite" type="text" name="name" value='{name}'/>
+  </form>
+
+  <input class="delete_favorite" type="submit" action="/favorites/{_id}?_method=DELETE" name="Delete" value="Delete">
+
+
+</div>
+{/result}

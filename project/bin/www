@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+var debug = require('debug')('canvas-server');
+var app = require('../app');
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
+
+const io = require('socket.io').listen(server);
+
+
+io.on('connection', function(socket){
+  console.log('Client connected');
+    socket.on('favorite.create', function(data) {
+      socket.broadcast.emit('favorite.create.server', 'Creation');
+    });
+
+   socket.on('favorite.update', function(data) {
+     socket.broadcast.emit('favorite.update.server', 'Update');
+    });
+
+    socket.on('favorite.delete', function(data) {
+      socket.broadcast.emit('favorite.delete.server', 'Delete');
+     });
+
+
+    socket.on('disconnect', function(){
+      console.log('Client disconnected');
+    });
+});

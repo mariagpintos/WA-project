@@ -1,0 +1,14 @@
+<html>
+
+<head>
+    <title>All Favourites</title>
+    <!--<link rel='stylesheet' href='style.css' />-->
+</head>
+
+<body>
+    {# list}
+        {> "partials/favouriteImage" /}
+    {/ list}
+</body>
+
+</html>
