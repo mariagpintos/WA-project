@@ -8,7 +8,7 @@ function init() {
     	                );
 
     getFavorites();
-
+    console.log('client initialized');
 
     var searchFormName = document.querySelector(".searchFormName");
 	searchFormName.addEventListener("keyup", search);
