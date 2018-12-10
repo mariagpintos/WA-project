@@ -7,17 +7,13 @@
     <title>OO-JS Exercise - Web Atelier 2017</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="/style.css">
-    
+
 </head>
 
 <body onload="init()">
     <h1>
      OO-JS Exercise: Canvas
    </h1>
-<!-- <div id="clock">
-        <div id="progress-bar"></div>
-        <div id="clock-time"></div>
-    </div> -->
     <div id="app">
         <div id="left-toolbar" class="toolbar">
             <button id="clear-btn">Clear</button>
@@ -28,6 +24,11 @@
         <div id="brush-toolbar" class="toolbar">
             <!-- Brushes buttons go here (programmatically). Each button should be a <button> element -->
         </div>
+        <select class="sort-options">
+          <option value="">Default</option>
+          <option value="popularity">Popularity</option>
+          <option value="date-created">Date Created</option>
+        </select>
     </div>
     <h2>Favourites</h2>
     <form class='searchForm'>
@@ -44,7 +45,7 @@
         {/ list}
     </div>
 
-    
+
     <script src="/scripts/brushes.js"></script>
     <script src="dustjs-linkedin/dust-core.min.js" charset="utf-8"></script>
     <script src="/js/fetch.js"></script>
