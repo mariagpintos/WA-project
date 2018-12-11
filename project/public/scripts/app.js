@@ -54,8 +54,8 @@ class App {
      if(object.brushToolbar !== undefined){
        this.createButtons();
      }
-
-    }
+     
+  }
 
   draw(){
       const ctx = this.canvas.getContext('2d');
@@ -119,49 +119,8 @@ class App {
 
 
   snap(){
-    /*var favouriteDiv = document.getElementById('favourites');
-
-    var dataURL = this.canvas.toDataURL();
-    var img = document.createElement('img');
-
-    var div = document.createElement('div');
-    var desc = document.createElement('input');
-    desc.setAttribute('type',"text");
-    desc.setAttribute('placeholder',"save");
-    desc.setAttribute('class',"hello");
-
-    img.src = dataURL;
-
-    var form = document.createElement('form');
-    form.setAttribute('method',"POST");
-    form.setAttribute('action',"/favorites");
-    
-    var title = document.createElement('input');
-    title.type = "text";
-    title.name = "name";
-
-    var dataUrl = document.createElement('input');
-    dataUrl.type = "hidden";
-    dataUrl.name = "dataURL";
-    dataUrl.value = img.src;
-
-    var submit = document.createElement('input');
-    submit.type = "submit";
-    submit.value = "Save";
-
-    form.appendChild(title);
-    form.appendChild(dataUrl);
-    form.appendChild(submit);
-
-    div.appendChild(img);
-    div.appendChild(form);
-
-    favouriteDiv.appendChild(div);
-
-    console.log('clicked')*/
-
     let image = document.getElementById('canvas').toDataURL();
-      
+
         doFetchRequest('POST',"/favorites", {'Content-Type': 'application/json'},
         JSON.stringify({name:'New Image', dataURL:`${image}`}))
         .then((data)=>{

@@ -12,6 +12,10 @@ function init() {
   var searchFormName = document.querySelector(".searchFormName");
 	searchFormName.addEventListener("keyup", search);
 
+  var sorting=document.querySelector('.sort-options');
+  sorting.addEventListener('change', handleSortChange.bind(this));
+
+
 	socket.on('favorite.create.server', function(data){
 	  getFavorites();
 	});
