@@ -8,6 +8,10 @@ function init() {
     	                );
 
     getFavorites();
+    getTopics();
+
+    var addTopic= document.querySelector(".postTopic");
+    addTopic.addEventListener("click", postTopic);
 
   var searchFormName = document.querySelector(".searchFormName");
 	searchFormName.addEventListener("keyup", search);

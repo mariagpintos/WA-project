@@ -6,6 +6,9 @@
 </head>
 
 <body>
+
+
+
     {# list}
         {> "partials/topicImage" /}
     {/ list}

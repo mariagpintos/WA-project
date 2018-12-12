@@ -29,7 +29,7 @@ app.engine('dust', dust.dust);
 const routers = require('./routes/routers');
 app.use('/', routers.root);
 app.use('/favorites', routers.favorites);
-app.use('topics', routers.topics);
+app.use('/topics', routers.topics);
 
 // app.set('port', process.env.PORT || 3000);
 //

@@ -17,9 +17,9 @@ module.exports = router;
 router.post('/', function(req, res) {
     console.log("function post");
     const form = new Topic({
-        name: req.body.name,
-        images: req.body.images,
-        mostPopular: req.body.images
+        name: req.body.name
+        // images: req.body.images,
+        // mostPopular: req.body.images
     });
 
     if((req.is('application/json') || req.is('application/x-www-form-urlencoded'))
@@ -48,7 +48,7 @@ router.post('/', function(req, res) {
 router.get("/",function(req, res){
     const filter = {};
 
-    Favorite.find(filter, function(err, found) {
+    Topic.find(filter, function(err, found) {
         if (err) throw (err);
 
         // Task 4
@@ -167,7 +167,7 @@ router.put("/:topicid",function(req, res){
         console.log(req.body.name)
         console.log(req.params.topicid)
 
-        Favorite.findById(id,
+        Topic.findById(id,
         function(err, found) {
             if (err) {
                const notfound = new Topic({

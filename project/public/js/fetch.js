@@ -64,19 +64,12 @@ function getTopics(){
   .then((data)=>{
     // render the favorites_partial found in public/js/views.js
     dust.render('partials/topicImage', {result: data} ,function(err, out) {
-                   // out contains the rendered HTML string.
+      // out contains the rendered HTML string.
       document.getElementById('topics').innerHTML = out;
 
-      document.querySelectorAll(".updateTopic").forEach((updateTopic) => {
-         updateTopic.addEventListener("keyup", topicUpdater);
-       });
-
-      document.querySelectorAll(".delete_favorite").forEach((favorite) => {
-         favorite.addEventListener("click", deleteFav);
-       });
-
-
-
+      // document.querySelectorAll(".updateTopic").forEach((updateTopic) => {
+      //    updateTopic.addEventListener("keyup", topicUpdater);
+      //  });
     });
   });
 }
@@ -133,10 +126,21 @@ function updateName(event){
      });
 }
 
-// function topicUpdater(event){
-//   console.log("funcion topic updater");
-// debugger;
-// }
+function postTopic(event){
+  console.log("funcion topic post");
+  console.log(nameGot);
+
+  let nameGot=document.getElementById('postTopic').value;
+  console.log(nameGot);
+  debugger;
+
+  doFetchRequest('POST', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: nameGot}))
+  .then((data)=>{
+   console.log(data)
+    socket.emit('favorite.update', 'Update of a favorite');
+  });
+
+}
 
 
 function search(event) {
