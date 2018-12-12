@@ -57,6 +57,30 @@ function doJSONRequest(method, url, headers, body){
 
 }
 
+function getTopics(){
+  doFetchRequest('GET', "/topics",{'Accept': 'application/json'}, undefined)
+  .then((response) => {
+     return response.json(); })
+  .then((data)=>{
+    // render the favorites_partial found in public/js/views.js
+    dust.render('partials/topicImage', {result: data} ,function(err, out) {
+                   // out contains the rendered HTML string.
+      document.getElementById('topics').innerHTML = out;
+
+      document.querySelectorAll(".updateTopic").forEach((updateTopic) => {
+         updateTopic.addEventListener("keyup", topicUpdater);
+       });
+
+      document.querySelectorAll(".delete_favorite").forEach((favorite) => {
+         favorite.addEventListener("click", deleteFav);
+       });
+
+
+
+    });
+  });
+}
+
 
 function getFavorites(){
     doFetchRequest('GET', "/favorites",{'Accept': 'application/json'}, undefined)
@@ -71,6 +95,10 @@ function getFavorites(){
         document.querySelectorAll(".name_favorite").forEach((name_favorite) => {
            name_favorite.addEventListener("keyup", updateName);
          });
+
+         // document.querySelectorAll(".updateTopic").forEach((updateTopic) => {
+         //    updateTopic.addEventListener("click", topicUpdater);
+         //  });
 
         document.querySelectorAll(".delete_favorite").forEach((favorite) => {
            favorite.addEventListener("click", deleteFav);
@@ -104,6 +132,11 @@ function updateName(event){
        socket.emit('favorite.update', 'Update of a favorite');
      });
 }
+
+// function topicUpdater(event){
+//   console.log("funcion topic updater");
+// debugger;
+// }
 
 
 function search(event) {

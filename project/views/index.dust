@@ -26,6 +26,19 @@
         </div>
 
     </div>
+    <h2>Topics</h2>
+
+    <div id="topics">
+      <form>
+      <input class="topic_favorite" type="text" name="topic" value='{topic}'/>
+      <input class="updateTopic" type="submit" action="/favorites/{topic}?_method=PUT" method='POST' name="updateTopic" value="Update topic">
+      </form>
+        {# list}
+        {> "topicImage" /}
+        {/ list}
+    </div>
+
+
     <h2>Favourites</h2>
     <form class='searchForm'>
           <input class='searchFormName' type="text" name="search" value="" placeholder="Search for image name"/>

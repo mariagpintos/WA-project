@@ -3,7 +3,7 @@
 <div class="gallery">
   <img src="{dataURL}">
 
-  <form action="/favorites/{topic}?_method=PUT" method='POST'>
+  <form action="/topics/{topic}?_method=PUT" method='POST'>
       <input class="name_favorite" type="text" name="name" value='{name}'/>
   </form>
 
@@ -12,7 +12,7 @@
   <input class="updateTopic" type="submit" action="/favorites/{topic}?_method=PUT" method='POST' name="updateTopic" value="Update topic">
   </form>
 
-  <input class="delete_favorite" type="submit" action="/favorites/{_id}?_method=DELETE" name="Delete" value="Delete">
+  <input class="delete_topic" type="submit" action="/topics/{_id}?_method=DELETE" name="Delete" value="Delete">
 
 
 </div>
