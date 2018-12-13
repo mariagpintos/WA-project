@@ -15,6 +15,9 @@ module.exports = router;
 
 /////// POST route
 router.post('/', function(req, res) {
+  console.log("function post");
+
+  debugger;
     console.log("function post");
     const form = new Topic({
         name: req.body.name

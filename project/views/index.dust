@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <title>OO-JS Exercise - Web Atelier 2017</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="/style.css">
@@ -29,8 +30,8 @@
     <h2>Topics</h2>
 
     <form>
-    <input class="nameTopic" type="text" name="topic" value='{topic}'/>
-    <input class="postTopic" type="submit" action="/favorites/{topic}?_method=POST" name="postTopic" value="Post topic">
+    <input class="nameTopic" type="text" name="topic" value='{topicName}'/>
+    <input class="postTopic" type="submit" action="/topic/POST" name="postTopic" value="Post topic">
     </form>
 
     <div id="topics">

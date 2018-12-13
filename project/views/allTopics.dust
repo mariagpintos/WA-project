@@ -7,8 +7,6 @@
 
 <body>
 
-
-
     {# list}
         {> "partials/topicImage" /}
     {/ list}

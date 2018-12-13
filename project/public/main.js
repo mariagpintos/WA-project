@@ -10,8 +10,8 @@ function init() {
     getFavorites();
     getTopics();
 
-    var addTopic= document.querySelector(".postTopic");
-    addTopic.addEventListener("click", postTopic);
+  var addTopic= document.querySelector(".postTopic");
+  addTopic.addEventListener("click", postTopic);
 
   var searchFormName = document.querySelector(".searchFormName");
 	searchFormName.addEventListener("keyup", search);
@@ -31,6 +31,11 @@ function init() {
 	socket.on('favorite.delete.server', function(data){
 	  getFavorites();
 	});
+
+  socket.on('topic.create.server', function(data){
+    getTopics();
+  });
+
 
 
     }

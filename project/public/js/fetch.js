@@ -57,24 +57,6 @@ function doJSONRequest(method, url, headers, body){
 
 }
 
-function getTopics(){
-  doFetchRequest('GET', "/topics",{'Accept': 'application/json'}, undefined)
-  .then((response) => {
-     return response.json(); })
-  .then((data)=>{
-    // render the favorites_partial found in public/js/views.js
-    dust.render('partials/topicImage', {result: data} ,function(err, out) {
-      // out contains the rendered HTML string.
-      document.getElementById('topics').innerHTML = out;
-
-      // document.querySelectorAll(".updateTopic").forEach((updateTopic) => {
-      //    updateTopic.addEventListener("keyup", topicUpdater);
-      //  });
-    });
-  });
-}
-
-
 function getFavorites(){
     doFetchRequest('GET', "/favorites",{'Accept': 'application/json'}, undefined)
     .then((response) => {
@@ -103,6 +85,31 @@ function getFavorites(){
     });
 }
 
+function getTopics(){
+  //debugger;
+  doFetchRequest('GET', "/topics",{'Accept': 'application/json'}, undefined)
+  .then((response) => {
+     return response.json(); })
+  .then((data)=>{
+    console.log(data);
+    // render the favorites_partial found in public/js/views.js
+    dust.render('partials/topicImage', {result: data} ,function(err, out) {
+      // out contains the rendered HTML string.
+      document.getElementById('topics').innerHTML = out;
+
+      document.querySelectorAll(".topicName").forEach((topicName) => {
+         topicName.addEventListener("keyup", showName);
+       });
+
+       document.querySelectorAll(".postTopic").forEach((postTopic) => {
+          postTopic.addEventListener("click", topicUpdater);
+        });
+
+    });
+  });
+}
+
+
 function deleteFav(event){
      doFetchRequest('DELETE', event.target.attributes.action.value, {}, undefined)
       .then((res)=>{
@@ -126,19 +133,43 @@ function updateName(event){
      });
 }
 
-function postTopic(event){
-  console.log("funcion topic post");
-  console.log(nameGot);
+function topicUpdater(event){
+    let nameTopic=document.getElementById('topic_favorite').value;
+    console.log(nameTopic);
 
-  let nameGot=document.getElementById('postTopic').value;
+    doFetchRequest('PUT', event.target.attributes.action.value, {'Content-Type': 'application/json'}, JSON.stringify({name: nameTopic}))
+    .then((data)=>{
+     console.log(data)
+      // socket.emit('favorite.update', 'Update of a favorite');
+    });
+
+}
+
+function showName(event){
+  console.log(event);
+  socket.emit('topic.create', 'Update of a topic');
+
+}
+
+function postTopic(event){
+  //debugger;
+  console.log("funcion topic post");
+  //debugger;
+
+  if (document.getElementById('topicName')!==null){
+
+  let nameGot=document.getElementById('topicName').value;
   console.log(nameGot);
-  debugger;
+  //debugger;
 
   doFetchRequest('POST', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: nameGot}))
   .then((data)=>{
    console.log(data)
-    socket.emit('favorite.update', 'Update of a favorite');
+    socket.emit('topic.create', 'Update of a topic');
   });
+} else{
+  console.log("argumento null");
+}
 
 }
 

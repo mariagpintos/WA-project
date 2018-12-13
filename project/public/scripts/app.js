@@ -17,7 +17,22 @@ class App {
          this.draw();
        }.bind(this);
 
+       this.canvas.touchstart=function(e){
+         this.drawable = true;
+         this.canvas.style.cursor = "crosshair";
+         history.initializeNewStrokesSet();
+         history.push(new Stroke(this.brush.name, e.offsetX, e.offsetY));
+         this.draw();
+       }.bind(this);
+
        this.canvas.onmousemove = function(e) {
+         if(this.drawable) {
+           history.push(new Stroke(this.brush.name, e.offsetX, e.offsetY));
+           this.draw();
+         }
+       }.bind(this);
+
+       this.canvas.touchmove = function(e) {
          if(this.drawable) {
            history.push(new Stroke(this.brush.name, e.offsetX, e.offsetY));
            this.draw();
@@ -29,7 +44,17 @@ class App {
          this.canvas.style.cursor = "default";
        }.bind(this);
 
+       this.canvas.touchend = function(e){
+         this.drawable = false;
+         this.canvas.style.cursor = "default";
+       }.bind(this);
+
        this.canvas.onmouseleave = function(e){
+         this.drawable = false;
+         this.canvas.style.cursor = "default";
+       }.bind(this);
+
+       this.canvas.touchleave = function(e){
          this.drawable = false;
          this.canvas.style.cursor = "default";
        }.bind(this);
@@ -54,7 +79,7 @@ class App {
      if(object.brushToolbar !== undefined){
        this.createButtons();
      }
-     
+
   }
 
   draw(){

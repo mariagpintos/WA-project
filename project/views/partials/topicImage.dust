@@ -1,12 +1,14 @@
 
 {#result}
 <div class="gallery">
+<img src="{dataURL}">
 
   <form>
-  <input class="topicName" type="text" name="topic" value='{topic}'/>
+  <input id='topicName' class="topicName" type="text" name="topicName" value='{name}'/>
   <input class="postTopic" type="submit" action="/{topic}?_method=POST" name="updateTopic" value="Update topic">
   </form>
 
+  <input class="delete-topic" type="submit" action="/topic?_method=DELETE" name="Delete" value="Delete">
 
 </div>
 {/result}
