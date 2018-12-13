@@ -11,7 +11,6 @@ function init() {
 
     console.log('third');
 
-
     var searchFormName = document.querySelector(".searchFormName");
 	searchFormName.addEventListener("keyup", search);
 
