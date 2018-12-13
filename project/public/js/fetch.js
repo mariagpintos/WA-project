@@ -57,7 +57,6 @@ function doJSONRequest(method, url, headers, body){
 
 }
 
-
 function getFavorites(){
     doFetchRequest('GET', "/favorites",{'Accept': 'application/json'}, undefined)
     .then((response) => {
@@ -72,22 +71,44 @@ function getFavorites(){
            name_favorite.addEventListener("keyup", updateName);
          });
 
+         // document.querySelectorAll(".updateTopic").forEach((updateTopic) => {
+         //    updateTopic.addEventListener("click", topicUpdater);
+         //  });
+
         document.querySelectorAll(".delete_favorite").forEach((favorite) => {
            favorite.addEventListener("click", deleteFav);
          });
 
-        document.querySelectorAll(".imgurPost").forEach((postImgur) => {
-           postImgur.addEventListener("submit", imgurPost);
-       	 });
-
-        document.querySelectorAll(".imgurPut").forEach((putImgur) => {
-           putImgur.addEventListener("submit", imgurPut);
-       	 });
 
 
       });
     });
 }
+
+function getTopics(){
+  //debugger;
+  doFetchRequest('GET', "/topics",{'Accept': 'application/json'}, undefined)
+  .then((response) => {
+     return response.json(); })
+  .then((data)=>{
+    console.log(data);
+    // render the favorites_partial found in public/js/views.js
+    dust.render('partials/topicImage', {result: data} ,function(err, out) {
+      // out contains the rendered HTML string.
+      document.getElementById('topics').innerHTML = out;
+
+      document.querySelectorAll(".topicName").forEach((topicName) => {
+         topicName.addEventListener("keyup", showName);
+       });
+
+       document.querySelectorAll(".postTopic").forEach((postTopic) => {
+          postTopic.addEventListener("click", topicUpdater);
+        });
+
+    });
+  });
+}
+
 
 function deleteFav(event){
      doFetchRequest('DELETE', event.target.attributes.action.value, {}, undefined)
@@ -103,64 +124,147 @@ function deleteFav(event){
       });
    }
 
+function updateName(event){
+
+     doFetchRequest('PUT', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
+     .then((data)=>{
+     	console.log(data)
+       socket.emit('favorite.update', 'Update of a favorite');
+     });
+}
+
+function topicUpdater(event){
+    let nameTopic=document.getElementById('topic_favorite').value;
+    console.log(nameTopic);
+
+    doFetchRequest('PUT', event.target.attributes.action.value, {'Content-Type': 'application/json'}, JSON.stringify({name: nameTopic}))
+    .then((data)=>{
+     console.log(data)
+      // socket.emit('favorite.update', 'Update of a favorite');
+    });
+
+}
+
+function showName(event){
+  console.log(event);
+  socket.emit('topic.create', 'Update of a topic');
+
+}
+
+function postTopic(event){
+  //debugger;
+  console.log("funcion topic post");
+  //debugger;
+
+  if (document.getElementById('topicName')!==null){
+
+  let nameGot=document.getElementById('topicName').value;
+  console.log(nameGot);
+  //debugger;
+
+  doFetchRequest('POST', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: nameGot}))
+  .then((data)=>{
+   console.log(data)
+    socket.emit('topic.create', 'Update of a topic');
+  });
+} else{
+  console.log("argumento null");
+}
+
+}
+
+
 function search(event) {
+  var value = event.target.value;
+  console.log(value);
      if (event.target.value!=null){
-     	console.log('searching')
        doJSONRequest('GET', "/favorites/search?name="+event.target.value, {'Accept': 'application/json'}, undefined)
        .then((data) => {
          dust.render('partials/favouriteImage', {result: data} ,function(err, out) {
                         document.getElementById('favourites').innerHTML = out;
          });
       });
-     }
-   }
-
-function updateName(event){
-	console.log('newName')
-	console.log(event.path[1].action);
-	console.log(event.target.value);
-	console.log(JSON.stringify({name: event.target.value}))
-
-  doFetchRequest('PUT', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
-  .then((data)=>{
-  	console.log(data)
-    socket.emit('favorite.update', 'Update of a favorite');
-  });
+    }
 }
 
-function imgurPost(event){
-     event.preventDefault();
-     let dataURL = event.target[0].value;
+function sortByDate(data) {
+  let dataOrdered=new Array();
 
-     let body = {
-       image: dataURL.substring(22, dataURL.length),
-       name: event.target[1].value,
-       album: event.target[2].value,
-       tags: event.target[3].value,
-       favorify: event.target[4].checked
-     }
+  for (let i=data.length-1;i>=0;i--){
+    console.log("i es "+i);
+    console.log(data[i].dateCreated);
+    dataOrdered.push(data[i]);
+  }
 
-     console.log(body.favorify)
-     console.log(body.tags)
+  return dataOrdered;
+}
 
-     doFetchRequest('POST', 'favorites/postimgur', {'Content-Type': 'application/json'}, JSON.stringify(body));
-     console.log(JSON.stringify(body))
+function sortByPopularity(data){
+  let dataPopular=new Array();
+  var aux;
 
-   }
+  dataPopular.push(data[0]);
 
-function imgurPut(event){
-     event.preventDefault();
-     let dataURL = event.target[0].value;
+  for (let i=1;i<data.length;i++){
+    //console.log("length de data " +data.length); 5
+    aux=data[i].popularity;
+    console.log("aux es "+aux);
+    console.log("longitud de datapopular "+dataPopular.length);
 
-     let body = {
-       image:dataURL.substring(22, dataURL.length),
-       oldName: event.target[1].value,
-       newName: event.target[2].value,
-     }
+    if (aux>dataPopular[0].popularity){
+        dataPopular.unshift(data[i]);
+    } else if (aux<=dataPopular[dataPopular.length-1].popularity){
+        dataPopular.push(data[i]);
+    } else {
+        for (let j=0;j<dataPopular.length;j++){
+          if (dataPopular[j].popularity>aux && dataPopular[j+1].popularity<=aux){
+            dataPopular.splice(j+1,0,data[i]);
+          }
+        }
+      }
+      console.log("FIN DE UNA VUELTA");
+  }
+  console.log("resultado");
+  for (let j=0;j<dataPopular.length;j++){
+    console.log(dataPopular[j].popularity);
+  }
+  return dataPopular;
+}
 
-     console.log(body)
 
-     doFetchRequest('PUT', 'favorites/putimgur', {'Content-Type': 'application/json'}, JSON.stringify(body));
+function handleSortChange (event) {
+  var value = event.target.value;
+  console.log(value);
 
-   }
+  if (event.target.value!=null){
+    if (value === 'date-created') {
 
+      console.log("value es dateCreated");
+      doJSONRequest('GET', "/favorites/", {'Accept': 'application/json'}, undefined)
+      .then((data) => {
+        newData=sortByDate(data);
+        dust.render('partials/favouriteImage', {result: newData} ,function(err, out) {
+                       document.getElementById('favourites').innerHTML = out;
+        });
+      });
+    } else if (value === 'popularity') {
+    //  sortByPopularity();
+      console.log("value es popularity");
+      doJSONRequest('GET', "/favorites/", {'Accept': 'application/json'}, undefined)
+      .then((data) => {
+      newData=sortByPopularity(data);
+      dust.render('partials/favouriteImage', {result: newData} ,function(err, out) {
+                     document.getElementById('favourites').innerHTML = out;
+      });
+   });
+ } else {
+   console.log("value es default");
+   doJSONRequest('GET', "/favorites/", {'Accept': 'application/json'}, undefined)
+   .then((data) => {
+     dust.render('partials/favouriteImage', {result: data} ,function(err, out) {
+                    document.getElementById('favourites').innerHTML = out;
+     });
+  });
+ }
+}
+};

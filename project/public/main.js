@@ -8,11 +8,17 @@ function init() {
     	                );
 
     getFavorites();
+    getTopics();
 
-    console.log('third');
+  var addTopic= document.querySelector(".postTopic");
+  addTopic.addEventListener("click", postTopic);
 
-    var searchFormName = document.querySelector(".searchFormName");
+  var searchFormName = document.querySelector(".searchFormName");
 	searchFormName.addEventListener("keyup", search);
+
+  var sorting=document.querySelector('.sort-options');
+  sorting.addEventListener('change', handleSortChange.bind(this));
+
 
 	socket.on('favorite.create.server', function(data){
 	  getFavorites();
@@ -25,6 +31,11 @@ function init() {
 	socket.on('favorite.delete.server', function(data){
 	  getFavorites();
 	});
+
+  socket.on('topic.create.server', function(data){
+    getTopics();
+  });
+
 
 
     }

@@ -4,20 +4,17 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <title>OO-JS Exercise - Web Atelier 2017</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="/style.css">
-    
+
 </head>
 
 <body onload="init()">
     <h1>
      OO-JS Exercise: Canvas
    </h1>
-<!-- <div id="clock">
-        <div id="progress-bar"></div>
-        <div id="clock-time"></div>
-    </div> -->
     <div id="app">
         <div id="left-toolbar" class="toolbar">
             <button id="clear-btn">Clear</button>
@@ -28,12 +25,44 @@
         <div id="brush-toolbar" class="toolbar">
             <!-- Brushes buttons go here (programmatically). Each button should be a <button> element -->
         </div>
+
     </div>
+    <h2>Topics</h2>
+
+    <form>
+    <input class="nameTopic" type="text" name="topic" value='{topicName}'/>
+    <input class="postTopic" type="submit" action="/topic/POST" name="postTopic" value="Post topic">
+    </form>
+
+    <div id="topics">
+
+      <!-- <form>
+      <select class="sort-options">
+        <option value="">Default</option>
+        <option value="popularity">Popularity</option>
+        <option value="date-created">Date Created</option>
+      </select>
+    </form> -->
+
+        {# list}
+        {> "topicImage" /}
+        {/ list}
+    </div>
+
+
     <h2>Favourites</h2>
     <form class='searchForm'>
           <input class='searchFormName' type="text" name="search" value="" placeholder="Search for image name"/>
           <!-- <input type="submit" name="" value="Search"/> -->
-        </form>
+    </form>
+
+    <form>
+    <select class="sort-options">
+      <option value="">Default</option>
+      <option value="popularity">Popularity</option>
+      <option value="date-created">Date Created</option>
+    </select>
+  </form>
 
         <br>
         <br>
@@ -45,7 +74,7 @@
         
     </div>
 
-    
+
     <script src="/scripts/brushes.js"></script>
     <script src="dustjs-linkedin/dust-core.min.js" charset="utf-8"></script>
     <script src="/js/fetch.js"></script>

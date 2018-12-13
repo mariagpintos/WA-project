@@ -1,0 +1,15 @@
+<html>
+
+<head>
+    <title>All Topics</title>
+    <!--<link rel='stylesheet' href='style.css' />-->
+</head>
+
+<body>
+
+    {# list}
+        {> "partials/topicImage" /}
+    {/ list}
+</body>
+
+</html>

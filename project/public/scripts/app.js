@@ -17,7 +17,22 @@ class App {
          this.draw();
        }.bind(this);
 
+       this.canvas.touchstart=function(e){
+         this.drawable = true;
+         this.canvas.style.cursor = "crosshair";
+         history.initializeNewStrokesSet();
+         history.push(new Stroke(this.brush.name, e.offsetX, e.offsetY));
+         this.draw();
+       }.bind(this);
+
        this.canvas.onmousemove = function(e) {
+         if(this.drawable) {
+           history.push(new Stroke(this.brush.name, e.offsetX, e.offsetY));
+           this.draw();
+         }
+       }.bind(this);
+
+       this.canvas.touchmove = function(e) {
          if(this.drawable) {
            history.push(new Stroke(this.brush.name, e.offsetX, e.offsetY));
            this.draw();
@@ -29,7 +44,17 @@ class App {
          this.canvas.style.cursor = "default";
        }.bind(this);
 
+       this.canvas.touchend = function(e){
+         this.drawable = false;
+         this.canvas.style.cursor = "default";
+       }.bind(this);
+
        this.canvas.onmouseleave = function(e){
+         this.drawable = false;
+         this.canvas.style.cursor = "default";
+       }.bind(this);
+
+       this.canvas.touchleave = function(e){
          this.drawable = false;
          this.canvas.style.cursor = "default";
        }.bind(this);
@@ -55,7 +80,7 @@ class App {
        this.createButtons();
      }
 
-    }
+  }
 
   draw(){
       const ctx = this.canvas.getContext('2d');
@@ -119,49 +144,8 @@ class App {
 
 
   snap(){
-    /*var favouriteDiv = document.getElementById('favourites');
-
-    var dataURL = this.canvas.toDataURL();
-    var img = document.createElement('img');
-
-    var div = document.createElement('div');
-    var desc = document.createElement('input');
-    desc.setAttribute('type',"text");
-    desc.setAttribute('placeholder',"save");
-    desc.setAttribute('class',"hello");
-
-    img.src = dataURL;
-
-    var form = document.createElement('form');
-    form.setAttribute('method',"POST");
-    form.setAttribute('action',"/favorites");
-    
-    var title = document.createElement('input');
-    title.type = "text";
-    title.name = "name";
-
-    var dataUrl = document.createElement('input');
-    dataUrl.type = "hidden";
-    dataUrl.name = "dataURL";
-    dataUrl.value = img.src;
-
-    var submit = document.createElement('input');
-    submit.type = "submit";
-    submit.value = "Save";
-
-    form.appendChild(title);
-    form.appendChild(dataUrl);
-    form.appendChild(submit);
-
-    div.appendChild(img);
-    div.appendChild(form);
-
-    favouriteDiv.appendChild(div);
-
-    console.log('clicked')*/
-
     let image = document.getElementById('canvas').toDataURL();
-      
+
         doFetchRequest('POST',"/favorites", {'Content-Type': 'application/json'},
         JSON.stringify({name:'New Image', dataURL:`${image}`}))
         .then((data)=>{
