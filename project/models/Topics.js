@@ -10,11 +10,10 @@ const TopicSchema = new mongoose.Schema({
     name: {type: String, required: true},
     //dataURL: {type: String, required: true, default: ""},
     //dataURL: {type: String,  default: ""},
-    images: {type:String,required:false, default: {}},
-    mostPopular: {type:String, required:false},
-
-    links: {type:Object, default: {}}
-  }
-);
+    images: {type:Object,required:false, default:{}},
+    mostPopular: {type:String, required:false, default:images[0]}
+    //
+    // links: {type:Object, default: {}}
+});
 
 mongoose.model('Topics', TopicSchema);

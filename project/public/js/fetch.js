@@ -71,9 +71,9 @@ function getFavorites(){
            name_favorite.addEventListener("keyup", updateName);
          });
 
-         // document.querySelectorAll(".updateTopic").forEach((updateTopic) => {
-         //    updateTopic.addEventListener("click", topicUpdater);
-         //  });
+         document.querySelectorAll(".updateTopicFav").forEach((updateTopicFav) => {
+            updateTopicFav.addEventListener("click", topicUpdater);
+          });
 
         document.querySelectorAll(".delete_favorite").forEach((favorite) => {
            favorite.addEventListener("click", deleteFav);
@@ -97,13 +97,17 @@ function getTopics(){
       // out contains the rendered HTML string.
       document.getElementById('topics').innerHTML = out;
 
-      document.querySelectorAll(".topicName").forEach((topicName) => {
-         topicName.addEventListener("keyup", showName);
-       });
-
        document.querySelectorAll(".postTopic").forEach((postTopic) => {
-          postTopic.addEventListener("click", topicUpdater);
+          postTopic.addEventListener("click", postTopic);
         });
+
+        document.querySelectorAll(".nameTopic").forEach((nameTopic) => {
+           nameTopic.addEventListener("keyup", changeNameTopic);
+         });
+
+         document.querySelectorAll(".delete_topic").forEach((topic) => {
+            topic.addEventListener("click", deleteTopic);
+          });
 
     });
   });
@@ -113,11 +117,11 @@ function getTopics(){
 function deleteFav(event){
      doFetchRequest('DELETE', event.target.attributes.action.value, {}, undefined)
       .then((res)=>{
+        console.log(res);
         if (res.status == 204) {
           let dom = event.target.parentNode;
           dom.parentNode.removeChild(dom);
 
-          getFavorites();
           socket.emit('favorite.delete', 'Delete of a favorite');
         }
 
@@ -128,11 +132,12 @@ function updateName(event){
 
      doFetchRequest('PUT', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
      .then((data)=>{
-     	console.log(data)
+     	console.log(data);
        socket.emit('favorite.update', 'Update of a favorite');
      });
 }
 
+//of favorite
 function topicUpdater(event){
     let nameTopic=document.getElementById('topic_favorite').value;
     console.log(nameTopic);
@@ -145,9 +150,26 @@ function topicUpdater(event){
 
 }
 
-function showName(event){
-  console.log(event);
-  socket.emit('topic.create', 'Update of a topic');
+function deleteTopic(event){
+
+     doFetchRequest('DELETE', event.target.attributes.action.value, {}, undefined)
+      .then((res)=>{
+        if (res.status == 204) {
+          let dom = event.target.parentNode;
+          dom.parentNode.removeChild(dom);
+
+          socket.emit('topic.delete', 'Delete of a topic');
+        }
+
+      });
+   }
+
+function changeNameTopic(event){
+  doFetchRequest('PUT', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
+  .then((data)=>{
+   console.log(data);
+    socket.emit('topic.update', 'Update of a topic');
+  });
 
 }
 
@@ -156,17 +178,20 @@ function postTopic(event){
   console.log("funcion topic post");
   //debugger;
 
-  if (document.getElementById('topicName')!==null){
+  if (document.getElementById("topicName")!==null){
 
-  let nameGot=document.getElementById('topicName').value;
+  let nameGot=document.getElementById("topicName").value;
   console.log(nameGot);
   //debugger;
 
-  doFetchRequest('POST', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: nameGot}))
+  doFetchRequest('POST', "/topics", {'Content-Type': 'application/json'}, JSON.stringify({name: nameGot}))
   .then((data)=>{
    console.log(data)
-    socket.emit('topic.create', 'Update of a topic');
+    socket.emit('topic.create', 'Post of a topic');
   });
+
+  getTopics();
+
 } else{
   console.log("argumento null");
 }
@@ -186,6 +211,8 @@ function search(event) {
       });
     }
 }
+
+//Sorting functions
 
 function sortByDate(data) {
   let dataOrdered=new Array();

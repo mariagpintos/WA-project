@@ -15,10 +15,8 @@ module.exports = router;
 
 /////// POST route
 router.post('/', function(req, res) {
-  console.log("function post");
+  console.log("function post router");
 
-  debugger;
-    console.log("function post");
     const form = new Topic({
         name: req.body.name
         // images: req.body.images,
@@ -50,10 +48,12 @@ router.post('/', function(req, res) {
 /////// GET: all topics
 router.get("/",function(req, res){
     const filter = {};
+    console.log("get topics1");
+
 
     Topic.find(filter, function(err, found) {
         if (err) throw (err);
-
+        console.log("get topics");
         // Task 4
         if (req.accepts("html")) {
             res.render("allTopics", { list: found });
@@ -145,7 +145,7 @@ router.get("/",function(req, res){
 /////// DELETE
 router.delete('/:topicid', function(req, res) {
 
-    const id = req.params.favoriteid;
+    const id = req.params.topicid;
 
     Topic.findById(id)
     .then(function(found){ return found.remove(); })

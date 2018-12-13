@@ -6,11 +6,11 @@
   <form action="/favorites/{_id}?_method=PUT" method='POST'>
       <input class="name_favorite" type="text" name="name" value='{name}'/>
   </form>
-  
-  <form>
+
+
   <input class="topic_favorite" type="text" name="topic" value='{topicName}'/>
-  <input class="updateTopic" type="submit" action="/favorites/{topic}?_method=PUT" method='POST' name="updateTopic" value="Update topic">
-  </form>
+  <input class="updateTopicFav" type="submit" action="/favorites/{topic}?_method=PUT" method='POST' name="updateTopic" value="Update topic">
+
 
   <input class="delete_favorite" type="submit" action="/favorites/{_id}?_method=DELETE" name="Delete" value="Delete">
 
