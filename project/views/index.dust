@@ -54,13 +54,11 @@
           <!-- <input type="submit" name="" value="Search"/> -->
     </form>
 
-    <form>
     <select class="sort-options">
       <option value="">Default</option>
       <option value="popularity">Popularity</option>
       <option value="date-created">Date Created</option>
     </select>
-  </form>
 
         <br>
         <br>
