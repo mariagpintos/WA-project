@@ -36,6 +36,14 @@ function init() {
     getTopics();
   });
 
+  socket.on('topic.update.server', function(data){
+    getTopics();
+  });
+
+  socket.on('topic.delete.server', function(data){
+    getTopics();
+  });
+
 
 
     }
