@@ -190,6 +190,11 @@ router.put("/:favoriteid",function(req, res){
                     found.name = req.body.name;
                     found.bookmarked = req.body.bookmarked;
                     found.dataCreated = req.body.dataCreated;
+                    found.topic=req.body.topic;
+
+                    if (found.topic!==undefined){
+                      
+                    }
 
 
                 found.save(function(err, saved) {

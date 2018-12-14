@@ -13,6 +13,7 @@ const FavoritesSchema = new mongoose.Schema({
     bookmarked: {type: Boolean, default: false},
     dateCreated: {type: Date, default:Date.now, required: true},
     popularity: {type:Number,default:1},
+    topic: {type:String, required:false},
 
     links: {type:Object, default: {}}
   }

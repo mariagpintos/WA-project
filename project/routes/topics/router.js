@@ -10,6 +10,9 @@ const fetch = require('node-fetch');
 require('../../models/Topics');
 const Topic = mongoose.model('Topics');
 
+require('../../models/Favorites');
+const Favorite = mongoose.model('Favorites');
+
 
 module.exports = router;
 
@@ -71,29 +74,87 @@ router.get("/",function(req, res){
 
 
 
-// /////// GET / search
-// router.get("/search",function(req, res){
-//     console.log('router searching')
-//
-//     const filter = {};
-//     if (req.query.name) {
-//         filter.name = req.query.name;
-//     }
-//     if (req.query._id) {
-//         filter._id = req.query._id;
-//     }
-//
-//
-//     Favorite.find(filter, function(err, found) {
-//         if (err) throw (err);
-//
-//         if (req.accepts("html")) {
-//             res.render("allFavourites", { list: found });
-//         } else {
-//             res.json(found);
-//         }
-//     });
-// });
+/////// GET / search
+router.get("/search",function(req, res){
+    console.log('topic searching');
+
+    const filter = {};
+    if (req.query.name) {
+        filter.name = req.query.name;
+    }
+    if (req.query._id) {
+        filter._id = req.query._id;
+    }
+
+    console.log(filter.name);
+
+    Topic.find(filter, function(err, found) {
+        if (err) throw (err);
+          console.log(found);
+          console.log("ID ES "+found[0]._id);
+
+        // if (req.accepts("html")) {
+        //     res.render("allTopics", { list: found });
+        // } else {
+            res.json(found[0]._id);
+        // }
+
+    });
+});
+
+function checkMostPopular(data){
+  console.log("function mostPopular");
+  let max=0;
+  let result;
+  console.log(data);
+  for (let i=0;i<data.length;i++){
+    console.log(data[i]);
+    if (data[i].popularity>max){
+      result=data[i].dataURL;
+      max=data[i].popularity;
+      console.log(max);
+    }
+  }
+  console.log(result);
+  console.log("fin funcion mostPopular");
+  return result;
+}
+
+router.get("/update",function(req, res){
+    console.log('topic updating');
+
+    const filter = {};
+    if (req.query.name) {
+        filter.name = req.query.name;
+    }
+
+    console.log(filter.name);
+
+    Topic.find(filter, function(err, found) {
+        if (err) throw (err);
+          console.log(found);
+          console.log("ID ES "+found[0]._id);
+
+          const filter2 = {};
+          filter2.topic=found[0].name;
+          const filter3={};
+
+          Favorite.find(filter3, function(err,favFound){
+
+            console.log("FAV ENCONTRADO "+favFound);
+
+            if (err) throw (err);
+
+            found[0].images.push(favFound[0]);
+            console.log(found[0]);
+            found[0].mostPopular=checkMostPopular(found[0].images);
+            console.log(found[0]);
+
+          });
+
+    });
+});
+
 
 /////// GET: one favorite with favoriteid
 // router.get("/:favoriteid",function(req, res){
@@ -175,8 +236,7 @@ router.put("/:topicid",function(req, res){
             if (err) {
                const notfound = new Topic({
                  name: req.body.name,
-                 images: req.body.images,
-                 mostPopular: req.body.images
+                 images: req.body.images
                 });
 
                 notfound.save(function(err, saved) {

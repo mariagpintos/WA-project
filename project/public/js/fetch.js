@@ -142,10 +142,25 @@ function topicUpdater(event){
     let nameTopic=document.getElementById('topic_favorite').value;
     console.log(nameTopic);
 
-    doFetchRequest('PUT', event.target.attributes.action.value, {'Content-Type': 'application/json'}, JSON.stringify({name: nameTopic}))
-    .then((data)=>{
-     console.log(data)
-      // socket.emit('favorite.update', 'Update of a favorite');
+    doFetchRequest('GET', "/topics/search?name="+nameTopic, {'Accept': 'application/json'}, undefined)
+    .then((res)=>{
+      console.log(res);
+      if (res.status==200){
+
+        doFetchRequest('PUT', event.target.attributes.action.value, {'Content-Type': 'application/json'}, JSON.stringify({topic: nameTopic}))
+        .then((data)=>{
+         console.log(data);
+          socket.emit('favorite.update', 'Update of a favorite');
+        });
+
+        doFetchRequest('GET', "/topics/update?name="+nameTopic, {'Accept': 'application/json'}, undefined)
+        .then((data2)=>{
+         console.log(data2);
+          socket.emit('topic.update', 'Update of a topic');
+        });
+
+      }
+
     });
 
 }
