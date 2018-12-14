@@ -58,6 +58,43 @@ function doJSONRequest(method, url, headers, body){
 }
 
 function getFavorites(){
+          console.log('image')
+
+    doFetchRequest('GET', "/favorites",{'Accept': 'application/json'}, undefined)
+    .then((response) => {
+       return response.json(); })
+    .then((data)=>{
+      // render the favorites_partial found in public/js/views.js
+      dust.render('partials/favouriteImage', {result: data} ,function(err, out) {
+                     // out contains the rendered HTML string.
+        document.getElementById('favourites').innerHTML = out;
+        console.log('image')
+
+        document.querySelectorAll(".little_image").forEach((image) => {
+          console.log('image')
+           image.addEventListener("click", getFullScreen);
+         });
+
+        document.querySelectorAll(".name_favorite").forEach((name_favorite) => {
+           name_favorite.addEventListener("keyup", updateName);
+         });
+
+         // document.querySelectorAll(".updateTopic").forEach((updateTopic) => {
+         //    updateTopic.addEventListener("click", topicUpdater);
+         //  });
+
+        document.querySelectorAll(".delete_favorite").forEach((favorite) => {
+           favorite.addEventListener("click", deleteFav);
+         });
+
+
+
+      });
+    });
+}
+
+
+function getFavorites(){
     doFetchRequest('GET', "/favorites",{'Accept': 'application/json'}, undefined)
     .then((response) => {
        return response.json(); })
@@ -81,6 +118,20 @@ function getFavorites(){
 
 
 
+      });
+    });
+}
+
+
+function getFullScreen(){
+  console.log('function called')
+  doFetchRequest('GET', "/fullScreen",{'Accept': 'application/json'}, undefined)
+    .then((response) => {
+       return response.json(); })
+    .then((data)=>{
+      // render the favorites_partial found in public/js/views.js
+      dust.render('partials/fullScreen', {dataURL: data} ,function(err, out) {
+                     // out contains the rendered HTML string.
       });
     });
 }

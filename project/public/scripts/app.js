@@ -145,6 +145,7 @@ class App {
 
   snap(){
     let image = document.getElementById('canvas').toDataURL();
+    console.log('imageApp')
 
         doFetchRequest('POST',"/favorites", {'Content-Type': 'application/json'},
         JSON.stringify({name:'New Image', dataURL:`${image}`}))
