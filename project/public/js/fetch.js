@@ -95,6 +95,8 @@ function getFullScreen(e){
  
     console.log(e.target.attributes.action.value)
 
+
+
     div = document.getElementById('fullScreen');
     div.innerHTML = ''
     
@@ -102,6 +104,13 @@ function getFullScreen(e){
     img.src = e.target.src;
 
     div.append(img);
+
+    doFetchRequest('POST', event.target.attributes.action.value, {}, undefined)
+    .then((data)=>{
+     console.log(data)
+      //socket.emit
+    });
+
 }
 
 function getTopics(){

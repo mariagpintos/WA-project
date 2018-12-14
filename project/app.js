@@ -30,6 +30,8 @@ const routers = require('./routes/routers');
 app.use('/', routers.root);
 app.use('/favorites', routers.favorites);
 app.use('/topics', routers.topics);
+app.use('/fullScreen', routers.fullScreen);
+
 
 // app.set('port', process.env.PORT || 3000);
 //
