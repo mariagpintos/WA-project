@@ -57,6 +57,7 @@ function doJSONRequest(method, url, headers, body){
 
 }
 
+
 function getFavorites(){
     doFetchRequest('GET', "/favorites",{'Accept': 'application/json'}, undefined)
     .then((response) => {
@@ -66,6 +67,10 @@ function getFavorites(){
       dust.render('partials/favouriteImage', {result: data} ,function(err, out) {
                      // out contains the rendered HTML string.
         document.getElementById('favourites').innerHTML = out;
+
+        document.querySelectorAll(".little_image").forEach((image) => {
+           image.addEventListener("click", getFullScreen);
+         });
 
         document.querySelectorAll(".name_favorite").forEach((name_favorite) => {
            name_favorite.addEventListener("keyup", updateName);
@@ -83,6 +88,29 @@ function getFavorites(){
 
       });
     });
+}
+
+
+function getFullScreen(e){
+ 
+    console.log(e.target.attributes.action.value)
+
+
+
+    div = document.getElementById('fullScreen');
+    div.innerHTML = ''
+    
+    img = document.createElement('img');
+    img.src = e.target.src;
+
+    div.append(img);
+
+    doFetchRequest('POST', event.target.attributes.action.value, {}, undefined)
+    .then((data)=>{
+     console.log(data)
+      socket.emit('image.popularity', 'Increase popularity of image');
+    });
+
 }
 
 function getTopics(){
@@ -115,9 +143,9 @@ function getTopics(){
 
 
 function deleteFav(event){
+
      doFetchRequest('DELETE', event.target.attributes.action.value, {}, undefined)
       .then((res)=>{
-        console.log(res);
         if (res.status == 204) {
           let dom = event.target.parentNode;
           dom.parentNode.removeChild(dom);
@@ -130,7 +158,7 @@ function deleteFav(event){
 
 function updateName(event){
 
-     doFetchRequest('PUT', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
+     doFetchRequest('PUT', event.path[1], {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
      .then((data)=>{
      	console.log(data);
        socket.emit('favorite.update', 'Update of a favorite');

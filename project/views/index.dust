@@ -63,10 +63,14 @@
         <br>
         <br>
     <div id="favourites">
+        
+
         <!-- Favourites will go here (programmatically). Each favourite should be an <img> element -->
-        {# list}
-        {> "favoriteImage" /}
-        {/ list}
+
+        
+    </div>
+
+    <div id="fullScreen">
     </div>
 
 
