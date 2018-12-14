@@ -44,6 +44,9 @@ function init() {
     getTopics();
   });
 
+  socket.on('image.popularity.server', function(data){
+    getTopics();
+  });
 
 
-    }
+}

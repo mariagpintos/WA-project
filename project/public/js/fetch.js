@@ -108,7 +108,7 @@ function getFullScreen(e){
     doFetchRequest('POST', event.target.attributes.action.value, {}, undefined)
     .then((data)=>{
      console.log(data)
-      //socket.emit
+      socket.emit('image.popularity', 'Increase popularity of image');
     });
 
 }
