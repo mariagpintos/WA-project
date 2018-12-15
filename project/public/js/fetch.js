@@ -95,15 +95,36 @@ function getFullScreen(e){
  
     console.log(e.target.attributes.action.value)
 
-
-
-    div = document.getElementById('fullScreen');
+    var div = document.getElementById('fullScreen');
     div.innerHTML = ''
+    div.classList.add('container');
     
-    img = document.createElement('img');
+    var img = document.createElement('img');
     img.src = e.target.src;
 
+    var allImages = document.getElementById('favourites').childNodes;
+    var count = 0;
+
+    button = document.createElement('button');
+    button.onclick = function(e){
+        let nextImage = allImages[count].childNodes[1].src;
+        img.src = nextImage;
+        count ++;
+        if(count > allImages.length-1) count = 0;
+        countImage();
+
+    }.bind(this);
+
+    function countImage(){
+        let nextImage = allImages[count].childNodes[1].src;
+        img.src = nextImage;
+        count ++;
+        if(count > allImages.length-1) count = 0;
+        setTimeout(countImage, 2000);
+    }
+
     div.append(img);
+    div.append(button)
 
     doFetchRequest('POST', event.target.attributes.action.value, {}, undefined)
     .then((data)=>{
@@ -112,6 +133,8 @@ function getFullScreen(e){
     });
 
 }
+
+
 
 function getTopics(){
   //debugger;
@@ -170,25 +193,10 @@ function topicUpdater(event){
     let nameTopic=document.getElementById('topic_favorite').value;
     console.log(nameTopic);
 
-    doFetchRequest('GET', "/topics/search?name="+nameTopic, {'Accept': 'application/json'}, undefined)
-    .then((res)=>{
-      console.log(res);
-      if (res.status==200){
-
-        doFetchRequest('PUT', event.target.attributes.action.value, {'Content-Type': 'application/json'}, JSON.stringify({topic: nameTopic}))
-        .then((data)=>{
-         console.log(data);
-          socket.emit('favorite.update', 'Update of a favorite');
-        });
-
-        doFetchRequest('GET', "/topics/update?name="+nameTopic, {'Accept': 'application/json'}, undefined)
-        .then((data2)=>{
-         console.log(data2);
-          socket.emit('topic.update', 'Update of a topic');
-        });
-
-      }
-
+    doFetchRequest('PUT', event.target.attributes.action.value, {'Content-Type': 'application/json'}, JSON.stringify({name: nameTopic}))
+    .then((data)=>{
+     console.log(data)
+      // socket.emit('favorite.update', 'Update of a favorite');
     });
 
 }
