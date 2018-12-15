@@ -11,7 +11,7 @@ const TopicSchema = new mongoose.Schema({
     //dataURL: {type: String, required: true, default: ""},
     //dataURL: {type: String,  default: ""},
     images: {type:Array,required:false, default:[]},
-    mostPopular: {type:String, required:false}
+    mostPopular: {type:String, required:false,default:""}
     //
     // links: {type:Object, default: {}}
 });
