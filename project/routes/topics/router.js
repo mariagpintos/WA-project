@@ -138,7 +138,7 @@ function checkMostPopular(data){
       console.log(max);
     }
   }
-  console.log("Resultado de funcion es "+result);
+  // console.log("Resultado de funcion es "+result);
   //console.log("fin funcion mostPopular");
   return result;
 }
@@ -185,42 +185,64 @@ router.get("/update",function(req, res){
 
             for (let i=0;i<favFound.length;i++){
 
-            console.log(filter2);
+            // console.log(filter2);
 
-            console.log("FAV ENCONTRADO: "+favFound[i]);
+            console.log("FAV ENCONTRADO NOMBRE: "+favFound[i].name);
+            console.log("FAV ENCONTRADO ID: "+favFound[i]._id);
+
             // console.log("FOUND BEGINNING"+found[0]);
 
+            console.log("LONGITUD DE IMAGES "+found[0].images.length);
+
             let c=0;
-            for (let j=0; j<found[0].images.length;j++){
-              if (found[0].images[j]._id == favFound[i]._id){
+            if (found[0].images.length!==0){
+              console.log("la longitud de imagenes es distinta de 0");
+            for (let j=0; j<found[0].images.length; j++){
+              console.log("j es "+j);
+              console.log("id de topic images "+found[0].images[j]._id);
+              console.log("id de fav con ese topic "+favFound[i]._id);
+              if ((found[0].images[j].dataURL) === (favFound[i].dataURL)){
+                console.log("c es 1 porque ya hay un fav ");
                 c=1;
+              } else{
+                console.log("considero que no son iguales");
               }
             }
+          }
 
-            if (c=0){
+            if (c===0){
             found[0].images.push(favFound[i]);
             console.log("tam de images "+found[0].images.length);
             let mP=checkMostPopular(found[0]);
             found[0].mostPopular=mP;
             if (found[0].mostPopular!==""){
               console.log("tenemos mostPopular");
-              console.log(found[0].mostPopular);
+              // console.log(found[0].mostPopular);
             }
-            console.log("FOUND END"+found[0]);
+            // console.log("FOUND END"+found[0]);
 
             found[0].save(function(err, saved) {
+                res.json(saved);
+
                 if(err){
                     console.log(err);
                 }
-                res.json(saved);
+                // res.json(saved);
             });
           } else {
             console.log("there is not a new fav with that topic");
+            found[0].save(function(err, saved) {
+                res.json(saved);
+
+                if(err){
+                    console.log(err);
+                }
+                // res.json(saved);
+            });
           }
           }
 
           });
-
     });
 });
 
