@@ -9,6 +9,7 @@
   </form>
 
 
+
   <input id="topicFavorite" class="topicFavorite" type="text" name="topicFavorite" value='{topicFavorite}'/>
   <input class="updateTopicFav" type="submit" action="/favorites/{_id}?_method=PUT" method='POST' name="updateTopic" value="Update topic">
 
