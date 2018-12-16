@@ -93,30 +93,53 @@ router.get("/search",function(req, res){
           console.log(found);
           console.log("ID ES "+found[0]._id);
 
-        // if (req.accepts("html")) {
-        //     res.render("allTopics", { list: found });
-        // } else {
+        if (req.accepts("html")) {
+            res.render("allTopics", { list: found });
+        } else {
             res.json(found[0]._id);
-        // }
+        }
 
     });
+});
+
+router.get("/images", function(req,res){
+  const filter = {};
+  if (req.query._id) {
+      filter._id = req.query._id;
+  }
+
+  Topic.find(filter, function(err, found) {
+      if (err) throw (err);
+        console.log(found);
+        console.log("ID ES "+found[0]._id);
+
+      if (req.accepts("html")) {
+          res.render("allTopics", { list: found.images });
+      } else {
+          res.json(found[0].images);
+      }
+
+  });
+
+
 });
 
 function checkMostPopular(data){
   console.log("function mostPopular");
   let max=0;
   let result;
-  console.log(data);
-  for (let i=0;i<data.length;i++){
-    console.log(data[i]);
-    if (data[i].popularity>max){
-      result=data[i].dataURL;
-      max=data[i].popularity;
+  // console.log(data);
+  console.log("length es "+data.images.length)
+  for (let i=0;i<data.images.length;i++){
+    console.log("i en funcion mostPopular "+i);
+    if (data.images[i].popularity>max){
+      result=data.images[i].dataURL;
+      max=data.images[i].popularity;
       console.log(max);
     }
   }
-  console.log(result);
-  console.log("fin funcion mostPopular");
+  console.log("Resultado de funcion es "+result);
+  //console.log("fin funcion mostPopular");
   return result;
 }
 
@@ -125,30 +148,76 @@ router.get("/update",function(req, res){
 
     const filter = {};
     if (req.query.name) {
+      console.log("hay query name");
         filter.name = req.query.name;
     }
 
+    console.log(req.query.name);
+
+    console.log(filter);
     console.log(filter.name);
 
     Topic.find(filter, function(err, found) {
         if (err) throw (err);
+
+          console.log(found.length);
+          console.log("ID DE FOUND ES "+found[0]._id);
+
           console.log(found);
-          console.log("ID ES "+found[0]._id);
 
           const filter2 = {};
           filter2.topic=found[0].name;
           const filter3={};
 
-          Favorite.find(filter3, function(err,favFound){
+          // if (req.query._id) {
+          //     filter3._id = req.query._id;
+          // }
 
-            console.log("FAV ENCONTRADO "+favFound);
+          Favorite.find(filter2, function(err,favFound){
 
-            if (err) throw (err);
+            //console.log("FAV ENCONTRADO "+favFound);
 
-            found[0].images.push(favFound[0]);
-            console.log(found[0]);
-            found[0].mostPopular=checkMostPopular(found[0].images);
-            console.log(found[0]);
+            // console.log("ID DE FAV ENCONTRADO "+favFound._id);
+
+            if (err){
+              console.log(err);
+            };
+
+            for (let i=0;i<favFound.length;i++){
+
+            console.log(filter2);
+
+            console.log("FAV ENCONTRADO: "+favFound[i]);
+            // console.log("FOUND BEGINNING"+found[0]);
+
+            let c=0;
+            for (let j=0; j<found[0].images.length;j++){
+              if (found[0].images[j]._id == favFound[i]._id){
+                c=1;
+              }
+            }
+
+            if (c=0){
+            found[0].images.push(favFound[i]);
+            console.log("tam de images "+found[0].images.length);
+            let mP=checkMostPopular(found[0]);
+            found[0].mostPopular=mP;
+            if (found[0].mostPopular!==""){
+              console.log("tenemos mostPopular");
+              console.log(found[0].mostPopular);
+            }
+            console.log("FOUND END"+found[0]);
+
+            found[0].save(function(err, saved) {
+                if(err){
+                    console.log(err);
+                }
+                res.json(saved);
+            });
+          } else {
+            console.log("there is not a new fav with that topic");
+          }
+          }
 
           });
 

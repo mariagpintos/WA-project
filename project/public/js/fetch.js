@@ -92,14 +92,12 @@ function getFavorites(){
 
 
 function getFullScreen(e){
- 
+
     console.log(e.target.attributes.action.value)
-
-
 
     div = document.getElementById('fullScreen');
     div.innerHTML = ''
-    
+
     img = document.createElement('img');
     img.src = e.target.src;
 
@@ -125,6 +123,10 @@ function getTopics(){
       // out contains the rendered HTML string.
       document.getElementById('topics').innerHTML = out;
 
+      document.querySelectorAll(".thumbnail").forEach((image) => {
+         image.addEventListener("click", getAllImages);
+       });
+
        document.querySelectorAll(".postTopic").forEach((postTopic) => {
           postTopic.addEventListener("click", postTopic);
         });
@@ -139,6 +141,21 @@ function getTopics(){
 
     });
   });
+}
+
+function getAllImages(event){
+
+  console.log(event);
+  console.log(event.target.attributes.action.value);
+
+
+
+  doJSONRequest('GET', "/topics/images?id="+event.target.value, {'Accept': 'application/json'}, undefined)
+  .then((data) => {
+    dust.render('partials/topicImage', {result: data} ,function(err, out) {
+                   document.getElementById('topics').innerHTML = out;
+    });
+ });
 }
 
 
@@ -158,6 +175,9 @@ function deleteFav(event){
 
 function updateName(event){
 
+  console.log(event.path[1]);
+  console.log(event.target.value);
+
      doFetchRequest('PUT', event.path[1], {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
      .then((data)=>{
      	console.log(data);
@@ -167,8 +187,10 @@ function updateName(event){
 
 //of favorite
 function topicUpdater(event){
-    let nameTopic=document.getElementById('topic_favorite').value;
-    console.log(nameTopic);
+    let nameTopic=document.getElementById("topicFavorite").value;
+    console.log(document.getElementById("topicFavorite"));
+    console.log(document.getElementById("topicFavorite").value);
+    console.log("NAME OF THE TOPIC "+nameTopic);
 
     doFetchRequest('GET', "/topics/search?name="+nameTopic, {'Accept': 'application/json'}, undefined)
     .then((res)=>{
@@ -183,13 +205,17 @@ function topicUpdater(event){
 
         doFetchRequest('GET', "/topics/update?name="+nameTopic, {'Accept': 'application/json'}, undefined)
         .then((data2)=>{
-         console.log(data2);
+          console.log("FINAL PART OF TOPIC UPDATER");
+          console.log(data2);
           socket.emit('topic.update', 'Update of a topic');
+          getTopics();
+
         });
 
       }
 
     });
+    // console.log("let's get the topics now");
 
 }
 
@@ -225,6 +251,7 @@ function postTopic(event){
 
   let nameGot=document.getElementById("topicName").value;
   console.log(nameGot);
+  console.log(document.getElementById("topicName"));
   //debugger;
 
   doFetchRequest('POST', "/topics", {'Content-Type': 'application/json'}, JSON.stringify({name: nameGot}))

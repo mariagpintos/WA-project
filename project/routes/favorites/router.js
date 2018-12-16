@@ -186,14 +186,15 @@ router.put("/:favoriteid",function(req, res){
 
             } else {
                     console.log('found')
+                    console.log(found.name);
                     found.dataURL = req.body.dataURL || found.dataURL;
-                    found.name = req.body.name;
+                    found.name = req.body.name || found.name;
                     found.bookmarked = req.body.bookmarked;
-                    found.dataCreated = req.body.dataCreated;
-                    found.topic=req.body.topic;
+                    found.dateCreated = req.body.dateCreated || found.dateCreated;
+                    found.topic=req.body.topic || found.topic;
 
                     if (found.topic!==undefined){
-                      
+                      console.log("el topic es "+found.topic);
                     }
 
 

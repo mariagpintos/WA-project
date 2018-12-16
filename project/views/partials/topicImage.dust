@@ -1,7 +1,10 @@
 
 {#result}
 <div class="gallery">
-  <!--<a href = "" ><img src="{mostPopular}"></a>-->
+  <!--<img src="{mostPopular}">-->
+
+    <input class="thumbnail" type="image" src="{mostPopular}" action="/topics/images/{_id}" method='GET'/>
+
 
 <form action="/topics/{_id}?_method=PUT">
     <input class="nameTopic" type="text" name="name" value='{name}'/>

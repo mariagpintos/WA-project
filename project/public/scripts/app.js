@@ -42,7 +42,7 @@ class App {
        this.canvas.onmouseup = function(e){
          this.drawable = false;
          this.canvas.style.cursor = "default";
-         
+
        }.bind(this);
 
        this.canvas.touchend = function(e){
@@ -154,8 +154,6 @@ class App {
           getFavorites();
           socket.emit('favorite.create', 'Creation of a favorite');
       })
-
-
   }
 
   createButtons(){

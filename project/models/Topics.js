@@ -6,12 +6,12 @@ const Schema = mongoose.Schema;
 * @param {Object} definition
 */
 const TopicSchema = new mongoose.Schema({
-    _id: {type: String},
+    // _id: {type: String},
     name: {type: String, required: true},
     //dataURL: {type: String, required: true, default: ""},
     //dataURL: {type: String,  default: ""},
     images: {type:Array,required:false, default:[]},
-    mostPopular: {type:String, required:false,default:""}
+    mostPopular: {type:String, required:false, default:""}
     //
     // links: {type:Object, default: {}}
 });
