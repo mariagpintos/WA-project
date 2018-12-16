@@ -212,7 +212,9 @@ function updateName(event){
 
 //of favorite
 function topicUpdater(event){
-    let nameTopic=document.getElementById("topicFavorite").value;
+  console.log(event.path[1].childNodes[3].value);
+  console.log(event.target.value)
+    let nameTopic = event.path[1].childNodes[3].value;
     console.log(document.getElementById("topicFavorite"));
     console.log(document.getElementById("topicFavorite").value);
     console.log("NAME OF THE TOPIC "+nameTopic);
