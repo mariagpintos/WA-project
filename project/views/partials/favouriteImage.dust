@@ -2,7 +2,7 @@
 {#result}
 <div class="gallery">
   <!--<a href = "" ><img src="{dataURL}"></a>-->
-  <input class="little_image" type="image" src="{dataURL}" alt="Alt text" action="/fullScreen/{_id}" method='POST' height="20px"/>
+  <input class="little_image" type="image" src="{dataURL}" alt="Alt text" action="/fullScreen/{_id}" method='POST' height="50px"/>
 
   <form action="/favorites/{_id}?_method=PUT" method='POST'>
       <input class="name_favorite" type="text" name="name" value='{name}'/>

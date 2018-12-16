@@ -69,6 +69,7 @@ function getFavorites(){
         document.getElementById('favourites').innerHTML = out;
 
         document.querySelectorAll(".little_image").forEach((image) => {
+          console.log('listener added')
            image.addEventListener("click", getFullScreen);
          });
 
@@ -97,7 +98,7 @@ function getFullScreen(e){
 
     var div = document.getElementById('fullScreen');
     div.innerHTML = ''
-    div.classList.add('container');
+    //div.classList.add('container');
 
     var img = document.createElement('img');
     img.src = e.target.src;
@@ -105,7 +106,7 @@ function getFullScreen(e){
     var allImages = document.getElementById('favourites').childNodes;
     var count = 0;
 
-    button = document.createElement('button');
+    var button = document.createElement('button');
     button.onclick = function(e){
         let nextImage = allImages[count].childNodes[1].src;
         img.src = nextImage;
@@ -200,10 +201,11 @@ function deleteFav(event){
 
 function updateName(event){
 
-  console.log(event.path[1]);
+  console.log(event.path);
   console.log(event.target.value);
+  //console.log(event.target.attributes.action.value)
 
-     doFetchRequest('PUT', event.path[1], {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
+     doFetchRequest('PUT', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
      .then((data)=>{
      	console.log(data);
        socket.emit('favorite.update', 'Update of a favorite');

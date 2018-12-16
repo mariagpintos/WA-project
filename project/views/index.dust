@@ -26,6 +26,11 @@
             <!-- Brushes buttons go here (programmatically). Each button should be a <button> element -->
         </div>
 
+        <div id="addTopic">
+            <input id="topicName" class="topicName" type="text" name="topicName" value='{topicName}'/>
+            <input class="postTopic" type="submit" name="postTopic" value="Post topic">
+        </div>
+
     </div>
     <h2>Topics</h2>
 
