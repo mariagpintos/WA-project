@@ -134,3 +134,36 @@ body{
     padding: 15px;
     text-align: center;
 }
+
+.container {
+  position: relative;
+  width: 50%;
+}
+
+/* Make the image responsive */
+.container img {
+  width: 100%;
+  height: auto;
+}
+
+/* Style the button and place it in the middle of the container/image */
+.container button {
+  position: absolute;
+  top: 70%;
+  left: 80%;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  background: url("img/arrow.png"); background-size: 100% 100%;
+  opacity: 100%;
+}
+
+.container button:hover {
+  background-color: black;
+}
+
+.container img:hover {
+  opacity:50%;
+}
