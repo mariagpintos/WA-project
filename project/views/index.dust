@@ -39,9 +39,9 @@
       <option value="popularity">Popularity</option>
       <option value="date-created">Date Created</option>
     </select> -->
-
+<!-- 
     <input id="topicName" class="topicName" type="text" name="topicName" value='{topicName}'/>
-    <input class="postTopic" type="submit" name="postTopic" value="Post topic">
+    <input class="postTopic" type="submit" name="postTopic" value="Post topic"> -->
 
     <div id="topics">
 
@@ -59,7 +59,7 @@
     </div>
 
 
-    <h2>Favourites</h2>
+    <h2>All images</h2>
     <form class='searchForm'>
           <input class='searchFormName' type="text" name="search" value="" placeholder="Search for image name"/>
           <!-- <input type="submit" name="" value="Search"/> -->

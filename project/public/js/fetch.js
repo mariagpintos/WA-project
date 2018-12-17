@@ -188,9 +188,6 @@ function getAllImages(event){
   console.log(event.path[1].childNodes[2].childNodes)
 
 
-  let s=document.getElementById("sorting").value;
-  console.log(s);
-
 
   doJSONRequest('GET', "/topics/images?id="+pieces[pieces.length-1], {'Accept': 'application/json'}, undefined)
   .then((data) => {
@@ -430,12 +427,12 @@ function handleSortChange (event) {
     if (value === 'date-created') {
 
       console.log("value es dateCreated");
-      doJSONRequest('GET', "/topics/images?name="+nameGot, {'Accept': 'application/json'}, undefined)
+      doJSONRequest('GET', "/favorites", {'Accept': 'application/json'}, undefined)
       .then((data) => {
         newData=sortByDate(data);
         dust.render('partials/favouriteImage', {result: newData} ,function(err, out) {
-                       document.getElementById('favourites').innerHTML = out;
-                       document.querySelectorAll(".little_image").forEach((image) => {
+          document.getElementById('favourites').innerHTML = out;
+          document.querySelectorAll(".little_image").forEach((image) => {
           console.log('listener added')
            image.addEventListener("click", getFullScreen);
          });
@@ -457,12 +454,12 @@ function handleSortChange (event) {
       });
     } else if (value === 'popularity') {
       console.log("value es popularity");
-      doJSONRequest('GET', "/topics/images?name="+nameGot, {'Accept': 'application/json'}, undefined)
+      doJSONRequest('GET', "/favorites", {'Accept': 'application/json'}, undefined)
       .then((data) => {
       newData=sortByPopularity(data);
       dust.render('partials/favouriteImage', {result: newData} ,function(err, out) {
-                     document.getElementById('favourites').innerHTML = out;
-                     document.querySelectorAll(".little_image").forEach((image) => {
+          document.getElementById('favourites').innerHTML = out;
+          document.querySelectorAll(".little_image").forEach((image) => {
           console.log('listener added')
            image.addEventListener("click", getFullScreen);
          });
@@ -484,11 +481,11 @@ function handleSortChange (event) {
    });
  } else {
    console.log("value es default");
-   doJSONRequest('GET', "/topics/images?name="+nameGot, {'Accept': 'application/json'}, undefined)
+   doJSONRequest('GET', "/favorites", {'Accept': 'application/json'}, undefined)
    .then((data) => {
      dust.render('partials/favouriteImage', {result: data} ,function(err, out) {
-                    document.getElementById('favourites').innerHTML = out;
-                    document.querySelectorAll(".little_image").forEach((image) => {
+        document.getElementById('favourites').innerHTML = out;
+        document.querySelectorAll(".little_image").forEach((image) => {
           console.log('listener added')
            image.addEventListener("click", getFullScreen);
          });

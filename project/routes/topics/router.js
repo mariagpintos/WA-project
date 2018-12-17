@@ -150,20 +150,28 @@ router.get("/checkFavs", function(req,res){
       console.log("longitud imgs es "+imgs.length);
       console.log("longitud fav es "+found[i].images.length);
 
-      found[i].save(function(err, saved) {
-          res.json(saved);
 
-          if(err){
-              console.log(err);
-          }
-          // res.json(saved);
-      });
+      // found[i].save(function(err, saved) {
+      //     res.json(saved);
+      //
+      //     if(err){
+      //         console.log(err);
+      //     }
+      //     // res.json(saved);
+      // });
 
       }
 
-      //res.json(found);
+          res.json(found);
+
 
     });
+
+
+
+
+
+
   });
 });
 
@@ -206,7 +214,7 @@ router.get("/images", function(req,res){
                 else{
                   //console.log(found[0].length)
                   //res.json(found[0]);
-                  console.log(found.images)
+                  console.log(found.images.length)
                   res.json(found.images);
 
 
@@ -341,53 +349,6 @@ router.get("/update",function(req, res){
     });
 });
 
-
-/////// GET: one favorite with favoriteid
-// router.get("/:favoriteid",function(req, res){
-//
-//     const id = req.params.favoriteid;
-//     console.log(id);
-//
-//     Favorite.findById(id,
-//         function(err, found) {
-//             if (err) {
-//                 res.status(404).end();
-//             }
-//             else {
-//                 if(found === null){
-//                     res.status(404).end();
-//                 }
-//                 else{
-//                         let date = Date.now();
-//                         found.visited.push(date);
-//
-//
-//                         found.save(function(err, saved) {
-//
-//                                 if (err) {
-//                                     throw (err);
-//                                 } else if (req.accepts("html")) {
-//
-//                                     res.render("allFavourites", { list: [found] });
-//
-//                                 } else if (req.accepts("json")) {
-//                                     found.links = {
-//                                         "self": "http://127.0.0.1:3000/favorites/"+found.id
-//                                     }
-//                                     res.json(found);
-//                                 } else {
-//                                     //not acceptable
-//                                     res.status(406).end();
-//                                 }
-//
-//                             });
-//
-//
-//                 }
-//             }
-//         });
-//
-// });
 
 /////// DELETE
 router.delete('/:topicid', function(req, res) {
