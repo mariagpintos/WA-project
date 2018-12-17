@@ -193,6 +193,7 @@ router.get("/images", function(req,res){
   const id = req.query.id;
     console.log(id);
 
+
     Topic.findById(id,
         function(err, found) {
             if (err) {
@@ -212,6 +213,7 @@ router.get("/images", function(req,res){
                 }
             }
         });
+
 
 
 });

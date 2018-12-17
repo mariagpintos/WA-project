@@ -169,6 +169,8 @@ function getTopics(){
   });
 }
 
+
+
 function getAllImages(event){
 
   console.log(event);
@@ -180,17 +182,29 @@ function getAllImages(event){
   console.log(event.path[1].childNodes[2].childNodes)
 
 
+  let s=document.getElementById("sorting").value;
+  console.log(s);
+
+
   doJSONRequest('GET', "/topics/images?id="+pieces[pieces.length-1], {'Accept': 'application/json'}, undefined)
   .then((data) => {
     console.log(data)
+
+    let newData=data;
+
+    if (s === 'date-created') {
+      newData=sortByDate(data);
+    } else if (s === 'popularity'){
+      newData=sortByPopularity(data);
+    }
 
 
     //div.classList.add('container');
     if(event.path[1].childNodes[2].childNodes.length == 0){
 
-      for(let i = 0; i < data.length; i++){
+      for(let i = 0; i < newData.length; i++){
         var img = document.createElement('img');
-        img.src = data[i].dataURL;
+        img.src = newData[i].dataURL;
         event.path[1].childNodes[2].append(img);
       }
     }
@@ -214,22 +228,6 @@ function deleteFav(event){
   console.log(event.target.attributes);
   console.log(event.target);
 
-
-
-
-  // if (event.target.attributes.action.value.topic!==undefined && event.target.attributes.action.value.topic!==null
-  // && event.target.attributes.action.value.topic!==""){
-  //
-  //   doFetchRequest('GET', "/topics/search?name="event.target.attributes.action.value, {'Accept': 'application/json'}, undefined)
-  //    .then((data)=>{
-  //
-  //      doFetchRequest('GET', "topics/deleteFavorite?_id="+event.target.attributes.action.value._id, {'Accept': 'application/json'}, undefined)
-  //      .then(data2)=>{
-  //        socket.emit('topic.update', 'Update of a topic');
-  //
-  //      }
-  //    });
-  // }
 
      doFetchRequest('DELETE', event.target.attributes.action.value, {}, undefined)
       .then((res)=>{
@@ -296,25 +294,8 @@ function topicUpdater(event){
       }
 
     });
-    // console.log("let's get the topics now");
 
 }
-
-// function deleteFromTopic(nameT){
-//
-//   doFetchRequest('GET', "/favorites/search?topic="+nameT, {'Accept': 'application/json'}, undefined)
-//   .then((data)=>{
-//     doFetchRequest('PUT', "/favorites", {'Content-Type': 'application/json'}, JSON.stringify({topic:""}))
-//     .then((data2)=>{
-//       // console.log(data2);
-//       socket.emit('favorite.update', 'Update of a favorite');
-//
-//     });
-//
-//   });
-//
-//
-// }
 
 function deleteTopic(event){
 
@@ -429,38 +410,43 @@ function sortByPopularity(data){
 
 
 function handleSortChange (event) {
+  let nameGot=document.getElementById("nameTopic").value;
+  console.log(nameGot);
+
+
   var value = event.target.value;
   console.log(value);
+
 
   if (event.target.value!=null){
     if (value === 'date-created') {
 
       console.log("value es dateCreated");
-      doJSONRequest('GET', "/favorites/", {'Accept': 'application/json'}, undefined)
+      doJSONRequest('GET', "/topics/images?name="+nameGot, {'Accept': 'application/json'}, undefined)
       .then((data) => {
         newData=sortByDate(data);
-        dust.render('partials/favouriteImage', {result: newData} ,function(err, out) {
-                       document.getElementById('favourites').innerHTML = out;
+        dust.render('partials/topicImage', {result: newData} ,function(err, out) {
+                       document.getElementById('topics').innerHTML = out;
         });
       });
     } else if (value === 'popularity') {
-    //  sortByPopularity();
       console.log("value es popularity");
-      doJSONRequest('GET', "/favorites/", {'Accept': 'application/json'}, undefined)
+      doJSONRequest('GET', "/topics/images?name="+nameGot, {'Accept': 'application/json'}, undefined)
       .then((data) => {
       newData=sortByPopularity(data);
-      dust.render('partials/favouriteImage', {result: newData} ,function(err, out) {
-                     document.getElementById('favourites').innerHTML = out;
+      dust.render('partials/topicImage', {result: newData} ,function(err, out) {
+                     document.getElementById('topics').innerHTML = out;
       });
    });
  } else {
    console.log("value es default");
-   doJSONRequest('GET', "/favorites/", {'Accept': 'application/json'}, undefined)
+   doJSONRequest('GET', "/topics/images?name="+nameGot, {'Accept': 'application/json'}, undefined)
    .then((data) => {
-     dust.render('partials/favouriteImage', {result: data} ,function(err, out) {
-                    document.getElementById('favourites').innerHTML = out;
+     dust.render('partials/topicImage', {result: data} ,function(err, out) {
+                    document.getElementById('topics').innerHTML = out;
      });
   });
  }
 }
+
 };
