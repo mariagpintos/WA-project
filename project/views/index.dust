@@ -45,7 +45,7 @@
         <div id="left-toolbar" class="toolbar">
             <button id="clear-btn" style="background-color: transparent; border: none"><img src="img/new.png" style="height: 100px"></button>
             <button id="undo-btn" style="background-color: transparent; border: none"><img src="img/undo.png" style="height: 100px"></button>
-            <button id="camera-btn" style="height:100px"><i class="fa fa-camera" aria-hidden="true"></i></button>
+            <button id="camera-btn" style="height:100px background-color: transparent; border: none"><i class="fa fa-camera fa-5x" aria-hidden="true"></i></button>
         </div>
         <canvas id="canvas" width="600" height="400"></canvas>
         <div id="brush-toolbar" class="toolbar">
