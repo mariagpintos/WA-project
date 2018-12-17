@@ -95,6 +95,7 @@ function getFavorites(){
 function getFullScreen(e){
 
     console.log(e.target.attributes.action.value)
+    console.log(e)
 
     var div = document.getElementById('fullScreen');
     div.innerHTML = ''
@@ -103,12 +104,16 @@ function getFullScreen(e){
     var img = document.createElement('img');
     img.src = e.target.src;
 
-    var allImages = document.getElementById('favourites').childNodes;
+    console.log(e.target.parentNode.childNodes);
+
+    //var allImages = document.getElementById('favourites').childNodes;
+    var allImages = e.target.parentNode.childNodes;
     var count = 0;
 
     var button = document.createElement('button');
     button.onclick = function(e){
-        let nextImage = allImages[count].childNodes[1].src;
+        //let nextImage = allImages[count].childNodes[1].src;
+        let nextImage = allImages[count].src;
         img.src = nextImage;
         count ++;
         if(count > allImages.length-1) count = 0;
@@ -117,7 +122,8 @@ function getFullScreen(e){
     }.bind(this);
 
     function countImage(){
-        let nextImage = allImages[count].childNodes[1].src;
+        //let nextImage = allImages[count].childNodes[1].src;
+        let nextImage = allImages[count].src;
         img.src = nextImage;
         count ++;
         if(count > allImages.length-1) count = 0;
@@ -189,9 +195,19 @@ function getAllImages(event){
     if(event.path[1].childNodes[2].childNodes.length == 0){
 
       for(let i = 0; i < data.length; i++){
-        var img = document.createElement('img');
-        img.src = data[i].dataURL;
-        event.path[1].childNodes[2].append(img);
+
+        //<input class="little_image" type="image" src="{dataURL}" alt="Alt text" action="/fullScreen/{_id}" method='POST' height="50px"/>
+        //var img = document.createElement('img');
+        //img.src = data[i].dataURL;
+
+        var input = document.createElement('input');
+        input.type = "image";
+        input.src = data[i].dataURL;
+        input.setAttribute("action", "/fullScreen/"+data[i]._id);
+        //input.action = "/fullScreen/"+data[i]._id;
+
+        input.addEventListener("click", getFullScreen);
+        event.path[1].childNodes[2].append(input);
       }
     }
     else{
@@ -441,6 +457,24 @@ function handleSortChange (event) {
         newData=sortByDate(data);
         dust.render('partials/favouriteImage', {result: newData} ,function(err, out) {
                        document.getElementById('favourites').innerHTML = out;
+                       document.querySelectorAll(".little_image").forEach((image) => {
+          console.log('listener added')
+           image.addEventListener("click", getFullScreen);
+         });
+
+        document.querySelectorAll(".name_favorite").forEach((name_favorite) => {
+           name_favorite.addEventListener("keyup", updateName);
+         });
+
+         document.querySelectorAll(".updateTopicFav").forEach((updateTopicFav) => {
+            updateTopicFav.addEventListener("click", topicUpdater);
+          });
+
+        document.querySelectorAll(".delete_favorite").forEach((favorite) => {
+           favorite.addEventListener("click", deleteFav);
+         });
+
+
         });
       });
     } else if (value === 'popularity') {
@@ -451,6 +485,24 @@ function handleSortChange (event) {
       newData=sortByPopularity(data);
       dust.render('partials/favouriteImage', {result: newData} ,function(err, out) {
                      document.getElementById('favourites').innerHTML = out;
+                     document.querySelectorAll(".little_image").forEach((image) => {
+          console.log('listener added')
+           image.addEventListener("click", getFullScreen);
+         });
+
+        document.querySelectorAll(".name_favorite").forEach((name_favorite) => {
+           name_favorite.addEventListener("keyup", updateName);
+         });
+
+         document.querySelectorAll(".updateTopicFav").forEach((updateTopicFav) => {
+            updateTopicFav.addEventListener("click", topicUpdater);
+          });
+
+        document.querySelectorAll(".delete_favorite").forEach((favorite) => {
+           favorite.addEventListener("click", deleteFav);
+         });
+
+
       });
    });
  } else {
@@ -459,6 +511,24 @@ function handleSortChange (event) {
    .then((data) => {
      dust.render('partials/favouriteImage', {result: data} ,function(err, out) {
                     document.getElementById('favourites').innerHTML = out;
+                    document.querySelectorAll(".little_image").forEach((image) => {
+          console.log('listener added')
+           image.addEventListener("click", getFullScreen);
+         });
+
+        document.querySelectorAll(".name_favorite").forEach((name_favorite) => {
+           name_favorite.addEventListener("keyup", updateName);
+         });
+
+         document.querySelectorAll(".updateTopicFav").forEach((updateTopicFav) => {
+            updateTopicFav.addEventListener("click", topicUpdater);
+          });
+
+        document.querySelectorAll(".delete_favorite").forEach((favorite) => {
+           favorite.addEventListener("click", deleteFav);
+         });
+
+
      });
   });
  }
