@@ -96,12 +96,14 @@ router.get("/search",function(req, res){
 
           console.log(found);
           // console.log("ID ES "+found[0]._id);
-          if (found ===undefined){
+          if (found !==undefined){
         if (req.accepts("html")) {
             res.render("allTopics", { list: found });
         } else {
             res.json(found[0]._id);
         }
+      } else {
+        console.log("no topic with that name or id")
       }
       }
 
@@ -158,7 +160,7 @@ router.get("/checkFavs", function(req,res){
 
 
       found[i].save(function(err, saved) {
-          res.json(saved);
+          // res.json(saved);
 
           if(err){
               console.log(err);

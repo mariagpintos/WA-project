@@ -336,11 +336,13 @@ function deleteTopic(event){
    }
 
 function changeNameTopic(event){
-  doFetchRequest('PUT', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
-  .then((data)=>{
-   console.log(data);
-    socket.emit('topic.update', 'Update of a topic');
-  });
+  // doFetchRequest('PUT', event.path[1].action, {'Content-Type': 'application/json'}, JSON.stringify({name: event.target.value}))
+  // .then((data)=>{
+  //  console.log(data);
+  //   socket.emit('topic.update', 'Update of a topic');
+  // });
+
+  console.log("Sorry you cannot change that");
 
 }
 
