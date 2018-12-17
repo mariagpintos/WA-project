@@ -45,7 +45,7 @@
         <div id="left-toolbar" class="toolbar">
             <button id="clear-btn" style="background-color: transparent; border: none"><img src="img/new.png" style="height: 100px"></button>
             <button id="undo-btn" style="background-color: transparent; border: none"><img src="img/undo.png" style="height: 100px"></button>
-            <button id="camera-btn" style="height:100px background-color: transparent; border: none"><i class="fa fa-camera fa-5x" aria-hidden="true"></i></button>
+            <button id="camera-btn" style="height:100px background-color: transparent; border: none"><i class="fa fa-camera fa-4x" aria-hidden="true"></i></button>
         </div>
         <canvas id="canvas" width="600" height="400"></canvas>
         <div id="brush-toolbar" class="toolbar">
@@ -55,13 +55,19 @@
         
 
     </div>
-    <h2>Topics</h2>
+
+    <br>
+    <br>
 
     <div id="addTopic">
-            <input id="topicName" class="topicName" type="text" name="topicName" value='{topicName}' width="48" height="48"/>
+    <h2 style="display: inline">Topics</h2>
+
+    
+            <input id="topicName" class="topicName" type="text" name="topicName" value='{topicName}' style="width:400px; margin-left: 80px; height: 20px"/>
             <input class="postTopic" type="submit" name="postTopic" value="Post topic">
         </div>
-
+        <br>
+        <br>
     <!-- <select class="sort-options">
       <option value="">Default</option>
       <option value="popularity">Popularity</option>
