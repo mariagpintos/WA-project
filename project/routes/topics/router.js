@@ -102,6 +102,71 @@ router.get("/search",function(req, res){
     });
 });
 
+
+router.get("/checkFavs", function(req,res){
+  console.log("delete fav from topic");
+
+  const filter={};
+
+  Topic.find(filter, function (err, found) {
+
+    Favorite.find(filter, function(err,foundFavs) {
+
+      for (let i=0;i<found.length;i++){
+        console.log("topic " +found[i].name);
+        let imgs=found[i].images;
+        let pos=[];
+
+        for (let j=0; j<imgs.length;j++){
+          pos[j]=-1;
+        }
+
+        console.log("pos inicial "+pos);
+
+        for (let j=0; j<imgs.length;j++){
+          for (let k=0; k<foundFavs.length;k++){
+
+            console.log("id de img: "+imgs[j]._id);
+            console.log("id de favs: "+foundFavs[k]._id);
+
+          if (imgs[j]._id.equals(foundFavs[k]._id)){
+            console.log("He encontrado un id igual");
+            pos[j]=0;
+          }
+        }
+      }
+
+      console.log("pos final "+pos);
+
+      for (let l=0; l<pos.length; l++){
+        if (pos[l]===-1){
+          console.log("elimino de la posicion "+l);
+          imgs.splice(l,1);
+        }
+      }
+      found[i].images=imgs.slice();
+      let mP=checkMostPopular(found[i]);
+      found[i].mostPopular=mP;
+      console.log("longitud imgs es "+imgs.length);
+      console.log("longitud fav es "+found[i].images.length);
+
+      found[i].save(function(err, saved) {
+          res.json(saved);
+
+          if(err){
+              console.log(err);
+          }
+          // res.json(saved);
+      });
+
+      }
+
+      //res.json(found);
+
+    });
+  });
+});
+
 router.get("/images", function(req,res){
   console.log(req.query.id)
   const filter = {};
@@ -142,7 +207,7 @@ router.get("/images", function(req,res){
                   //res.json(found[0]);
                   console.log(found.images.length)
                   res.json(found.images);
-                               
+
 
                 }
             }
@@ -169,6 +234,7 @@ function checkMostPopular(data){
   //console.log("fin funcion mostPopular");
   return result;
 }
+
 
 router.get("/update",function(req, res){
     console.log('topic updating');
@@ -259,7 +325,7 @@ router.get("/update",function(req, res){
           } else {
             console.log("there is not a new fav with that topic");
             found[0].save(function(err, saved) {
-                res.json(saved);
+                // res.json(saved);
 
                 if(err){
                     console.log(err);
