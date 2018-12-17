@@ -31,6 +31,7 @@ router.post("/:imageid",function(req, res){
                 ++found.popularity;
                 console.log(found.popularity)
 				found.save(function(err, saved) {
+					res.json(saved);
 				 });
 
                 }

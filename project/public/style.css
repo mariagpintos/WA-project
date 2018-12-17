@@ -167,3 +167,7 @@ body{
 .container img:hover {
   opacity:50%;
 }
+
+body {
+  background: url("img/background_paper.jpg");
+}

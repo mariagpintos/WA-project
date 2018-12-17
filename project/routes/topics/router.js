@@ -206,7 +206,7 @@ router.get("/images", function(req,res){
                 else{
                   //console.log(found[0].length)
                   //res.json(found[0]);
-                  console.log(found.images.length)
+                  console.log(found.images)
                   res.json(found.images);
 
 
