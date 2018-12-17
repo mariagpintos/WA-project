@@ -111,6 +111,8 @@ function getFullScreen(e){
     var count = 0;
 
     var button = document.createElement('button');
+    var nameBrush = document.createTextNode('nextImage');
+    button.appendChild(nameBrush);
     button.onclick = function(e){
         //let nextImage = allImages[count].childNodes[1].src;
         let nextImage = allImages[count].src;

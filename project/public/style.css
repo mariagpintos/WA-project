@@ -10,13 +10,15 @@ body{
 #canvas{
   border: 1px solid #bbb;
   background-color: white;
+  margin-left:60px;
+  margin-top:30px;
 }
 
 #header {
   display: flex;
   align-items: center;
   font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
-  background-color: #79D8D5;
+  background-color: green;
   margin: 0;
   padding: 30px;
 }
@@ -141,11 +143,13 @@ body{
 
 #images {
   float:right;
+  margin-left:70%;
 }
+
 
 #favourites div.gallery {
     margin: 5px;
-    /*float: left;*/
+    float: left;
     width: 200px;
 }
 
@@ -207,6 +211,19 @@ body{
 
 body {
   background: url("img/background_paper.jpg");
+}
+
+input[type="text"]{
+  border:none;
+  font-weight: bold;
+}
+
+#left-toolbar {
+  margin-top:30px;
+}
+
+#brush-toolbar {
+  margin-top:30px;
 }
 
 /*h1 {

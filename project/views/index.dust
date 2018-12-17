@@ -43,9 +43,9 @@
     </div>
     <div id="app">
         <div id="left-toolbar" class="toolbar">
-            <button id="clear-btn"><img src="img/undo.png"></button>
-            <button id="undo-btn">Undo</button>
-            <button id="camera-btn"><i class="fa fa-camera" aria-hidden="true"></i></button>
+            <button id="clear-btn" style="background-color: transparent; border: none"><img src="img/new.png" style="height: 100px"></button>
+            <button id="undo-btn" style="background-color: transparent; border: none"><img src="img/undo.png" style="height: 100px"></button>
+            <button id="camera-btn" style="height:100px"><i class="fa fa-camera" aria-hidden="true"></i></button>
         </div>
         <canvas id="canvas" width="600" height="400"></canvas>
         <div id="brush-toolbar" class="toolbar">
@@ -58,7 +58,7 @@
     <h2>Topics</h2>
 
     <div id="addTopic">
-            <input id="topicName" class="topicName" type="text" name="topicName" value='{topicName}'/>
+            <input id="topicName" class="topicName" type="text" name="topicName" value='{topicName}' width="48" height="48"/>
             <input class="postTopic" type="submit" name="postTopic" value="Post topic">
         </div>
 
