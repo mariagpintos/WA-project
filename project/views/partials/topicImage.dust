@@ -8,8 +8,8 @@
     <div class = "allImages" id="allImages">
     </div>
 	<form action="/topics/{_id}?_method=PUT">
-	    <input class="nameTopic" id="nameTopic" type="text" name="name" value='{name}'/>
-	</form>
+	    <input class="nameTopic" id="nameTopic" type="text" name="name" value='{name}' readonly />
+		</form>
 
  	<input class="delete_topic" type="submit" action="/topics/{_id}?_method=DELETE" name="Delete" value="Delete">
 

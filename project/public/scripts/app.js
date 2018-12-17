@@ -33,6 +33,7 @@ class App {
        }.bind(this);
 
        this.canvas.touchmove = function(e) {
+         e.preventDefault();
          if(this.drawable) {
            history.push(new Stroke(this.brush.name, e.offsetX, e.offsetY));
            this.draw();
