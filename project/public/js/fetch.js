@@ -187,10 +187,23 @@ function getAllImages(event){
   console.log(event.path[1].childNodes)
   console.log(event.path[1].childNodes[2].childNodes)
 
+  doFetchRequest('GET', "topics/checkFavs",{'Accept': 'application/json'}, undefined)
+  .then((data1)=>{
+
+    console.log("second data");
+    console.log(data1);
+
+    socket.emit('topic.update', 'Update of a topic');
+
+    // getTopics();
+
+  });
+
 
 
   doJSONRequest('GET', "/topics/images?id="+pieces[pieces.length-1], {'Accept': 'application/json'}, undefined)
   .then((data) => {
+    console.log("HERE COMES DATA OF getAllImages");
     console.log(data)
 
 
@@ -223,6 +236,8 @@ function getAllImages(event){
                    //document.getElementById('topics').innerHTML = out;
     //});
  });
+
+// });
 }
 
 

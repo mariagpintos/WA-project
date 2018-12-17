@@ -151,18 +151,18 @@ router.get("/checkFavs", function(req,res){
       console.log("longitud fav es "+found[i].images.length);
 
 
-      // found[i].save(function(err, saved) {
-      //     res.json(saved);
-      //
-      //     if(err){
-      //         console.log(err);
-      //     }
-      //     // res.json(saved);
-      // });
+      found[i].save(function(err, saved) {
+          res.json(saved);
+
+          if(err){
+              console.log(err);
+          }
+          // res.json(saved);
+      });
 
       }
 
-          res.json(found);
+          // res.json(found);
 
 
     });
