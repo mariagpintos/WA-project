@@ -89,15 +89,21 @@ router.get("/search",function(req, res){
     console.log(filter.name);
 
     Topic.find(filter, function(err, found) {
-        if (err) throw (err);
-          console.log(found);
-          console.log("ID ES "+found[0]._id);
+        if (err){
+          console.log(err);
 
+        } else {
+
+          console.log(found);
+          // console.log("ID ES "+found[0]._id);
+          if (found ===undefined){
         if (req.accepts("html")) {
             res.render("allTopics", { list: found });
         } else {
             res.json(found[0]._id);
         }
+      }
+      }
 
     });
 });

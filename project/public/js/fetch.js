@@ -311,6 +311,8 @@ function topicUpdater(event){
 
         });
 
+      } else {
+        console.log("That topic does not exist");
       }
 
     });
