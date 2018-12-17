@@ -172,15 +172,37 @@ function getTopics(){
 function getAllImages(event){
 
   console.log(event);
-  console.log(event.target.attributes.action.value);
+  console.log(event.target.attributes.action);
+  pieces = event.target.attributes.action.value.split("/");
+  console.log(pieces[pieces.length-1])
+  console.log(event.target.value)
+  console.log(event.path[1].childNodes)
+  console.log(event.path[1].childNodes[2].childNodes)
 
 
-
-  doJSONRequest('GET', "/topics/images?id="+event.target.value, {'Accept': 'application/json'}, undefined)
+  doJSONRequest('GET', "/topics/images?id="+pieces[pieces.length-1], {'Accept': 'application/json'}, undefined)
   .then((data) => {
-    dust.render('partials/topicImage', {result: data} ,function(err, out) {
-                   document.getElementById('topics').innerHTML = out;
-    });
+    console.log(data)
+
+    
+    //div.classList.add('container');
+    if(event.path[1].childNodes[2].childNodes.length == 0){
+
+      for(let i = 0; i < data.length; i++){
+        var img = document.createElement('img');
+        img.src = data[i].dataURL;
+        event.path[1].childNodes[2].append(img);
+      }
+    }
+    else{
+      event.path[1].childNodes[2].innerHTML = '';
+    }
+
+
+
+    //dust.render('partials/topicImage', {result: data} ,function(err, out) {
+                   //document.getElementById('topics').innerHTML = out;
+    //});
  });
 }
 

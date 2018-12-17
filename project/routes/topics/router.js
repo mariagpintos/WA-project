@@ -103,23 +103,50 @@ router.get("/search",function(req, res){
 });
 
 router.get("/images", function(req,res){
+  console.log(req.query.id)
   const filter = {};
-  if (req.query._id) {
-      filter._id = req.query._id;
-  }
+  console.log('xxxxxxxxxxxxxxxxx')
+  console.log(req.query._id);
+  //if (req.query._id) {
+    //  filter._id = req.query._id;
+  //}
 
-  Topic.find(filter, function(err, found) {
+  /*Topic.find(filter, function(err, found) {
       if (err) throw (err);
-        console.log(found);
-        console.log("ID ES "+found[0]._id);
+        //console.log(found);
+        //console.log("ID ES "+found[0]._id);
 
-      if (req.accepts("html")) {
-          res.render("allTopics", { list: found.images });
-      } else {
+      //if (req.accepts("html")) {
+          //res.render("allTopics", { list: found.images });
+      //} else {
+        console.log(found[0].images.length)
           res.json(found[0].images);
-      }
+      //}
 
-  });
+  });*/
+
+  const id = req.query.id;
+    console.log(id);
+
+    Topic.findById(id,
+        function(err, found) {
+            if (err) {
+                res.status(404).end();
+            }
+            else {
+                if(found === null){
+                    res.status(404).end();
+                }
+                else{
+                  //console.log(found[0].length)
+                  //res.json(found[0]);
+                  console.log(found.images.length)
+                  res.json(found.images);
+                               
+
+                }
+            }
+        });
 
 
 });

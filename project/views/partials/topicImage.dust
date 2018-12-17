@@ -5,12 +5,13 @@
 
     <input class="thumbnail" type="image" src="{mostPopular}" action="/topics/images/{_id}" method='GET'/>
 
+    <div class = "allImages" id="allImages">
+    </div>
+	<form action="/topics/{_id}?_method=PUT">
+	    <input class="nameTopic" type="text" name="name" value='{name}'/>
+	</form>
 
-<form action="/topics/{_id}?_method=PUT">
-    <input class="nameTopic" type="text" name="name" value='{name}'/>
-</form>
-
-  <input class="delete_topic" type="submit" action="/topics/{_id}?_method=DELETE" name="Delete" value="Delete">
+ 	<input class="delete_topic" type="submit" action="/topics/{_id}?_method=DELETE" name="Delete" value="Delete">
 
 </div>
 {/result}
