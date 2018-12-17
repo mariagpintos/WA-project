@@ -82,6 +82,10 @@ router.get("/search",function(req, res){
         filter._id = req.query._id;
     }
 
+    if (req.query.topic) {
+        filter.topic = req.query.topic;
+    }
+
 
     Favorite.find(filter, function(err, found) {
         if (err) throw (err);

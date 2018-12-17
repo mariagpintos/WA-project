@@ -179,13 +179,35 @@ function getAllImages(event){
   doJSONRequest('GET', "/topics/images?id="+event.target.value, {'Accept': 'application/json'}, undefined)
   .then((data) => {
     dust.render('partials/topicImage', {result: data} ,function(err, out) {
-                   document.getElementById('topics').innerHTML = out;
+      document.getElementById('topics').innerHTML = out;
     });
  });
 }
 
 
 function deleteFav(event){
+
+  console.log(event.target.attributes.action.value);
+  console.log(event.target.attributes.action);
+  console.log(event.target.attributes);
+  console.log(event.target);
+
+
+
+
+  // if (event.target.attributes.action.value.topic!==undefined && event.target.attributes.action.value.topic!==null
+  // && event.target.attributes.action.value.topic!==""){
+  //
+  //   doFetchRequest('GET', "/topics/search?name="event.target.attributes.action.value, {'Accept': 'application/json'}, undefined)
+  //    .then((data)=>{
+  //
+  //      doFetchRequest('GET', "topics/deleteFavorite?_id="+event.target.attributes.action.value._id, {'Accept': 'application/json'}, undefined)
+  //      .then(data2)=>{
+  //        socket.emit('topic.update', 'Update of a topic');
+  //
+  //      }
+  //    });
+  // }
 
      doFetchRequest('DELETE', event.target.attributes.action.value, {}, undefined)
       .then((res)=>{
@@ -194,8 +216,16 @@ function deleteFav(event){
           dom.parentNode.removeChild(dom);
 
           socket.emit('favorite.delete', 'Delete of a favorite');
-        }
 
+          doFetchRequest('GET', "topics/checkFavs",{'Accept': 'application/json'}, undefined)
+          .then((data)=>{
+
+            socket.emit('topic.update', 'Update of a topic');
+
+            getTopics();
+
+          });
+        }
       });
    }
 
@@ -248,7 +278,25 @@ function topicUpdater(event){
 
 }
 
+// function deleteFromTopic(nameT){
+//
+//   doFetchRequest('GET', "/favorites/search?topic="+nameT, {'Accept': 'application/json'}, undefined)
+//   .then((data)=>{
+//     doFetchRequest('PUT', "/favorites", {'Content-Type': 'application/json'}, JSON.stringify({topic:""}))
+//     .then((data2)=>{
+//       // console.log(data2);
+//       socket.emit('favorite.update', 'Update of a favorite');
+//
+//     });
+//
+//   });
+//
+//
+// }
+
 function deleteTopic(event){
+
+  // deleteFromTopic(event.target.attributes.action.value);
 
      doFetchRequest('DELETE', event.target.attributes.action.value, {}, undefined)
       .then((res)=>{
