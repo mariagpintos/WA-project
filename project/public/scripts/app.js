@@ -159,7 +159,12 @@ class App {
   createButtons(){
     var brushButton = document.createElement('button');
     var nameBrush = document.createTextNode('Brush');
-    brushButton.appendChild(nameBrush);
+    //brushButton.appendChild(nameBrush);
+    brushButton.innerHTML = '<img src="img/brush.png" style ="height:100px"/>'
+    brushButton.style.background = "none";
+    brushButton.style.border = "none";
+    brushButton.style.backgroundSize= ('100% 100%');
+
     brushButton.onclick = function(e){
       this.brush = new PenBrush();
     }.bind(this);
@@ -167,7 +172,11 @@ class App {
 
     var discButton = document.createElement('button');
     var nameDisc = document.createTextNode('Disc');
-    discButton.appendChild(nameDisc);
+    //discButton.appendChild(nameDisc);
+    discButton.innerHTML = '<img src="img/circle.png" style ="height:100px"/>'
+    discButton.style.border = "none";
+    discButton.style.background = "none";
+
     discButton.onclick = function(e){
       this.brush = new CircleBrush();
     }.bind(this);
@@ -175,7 +184,11 @@ class App {
 
     var starButton = document.createElement('button');
     var nameStar = document.createTextNode('Star');
-    starButton.appendChild(nameStar);
+    //starButton.appendChild(nameStar);
+    starButton.innerHTML = '<img src="img/star.png" style ="height:100px"/>'
+    starButton.style.border = "none";
+    starButton.style.background = "none";
+
     starButton.onclick = function(e){
       this.brush = new StarBrush();
     }.bind(this);
